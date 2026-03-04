@@ -1,0 +1,1732 @@
+<!-- P1/P2 组件设计稿 - 补全内容（20 个组件） -->
+<!-- 设计风格：蓝紫渐变 #3370FF → #722ED1，圆角 8px，玻璃态效果 -->
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>组件库设计稿 - P1/P2 补全组件</title>
+    <style>
+        :root {
+            --primary: #3370FF;
+            --primary-gradient: linear-gradient(135deg, #3370FF 0%, #722ED1 100%);
+            --purple: #722ED1;
+            --cyan: #33C3B0;
+            --orange: #FF7A45;
+            --green: #00B365;
+            --yellow: #FFB300;
+            --red: #FF4D4F;
+            --border: #E5E6EB;
+            --text-primary: rgba(0, 0, 0, 0.85);
+            --text-secondary: rgba(0, 0, 0, 0.45);
+            --text-disabled: rgba(0, 0, 0, 0.25);
+            --bg-disabled: #f5f5f5;
+            --radius-sm: 6px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --shadow-sm: 0 2px 8px rgba(51, 112, 255, 0.1);
+            --shadow-md: 0 4px 16px rgba(51, 112, 255, 0.2);
+            --shadow-lg: 0 8px 32px rgba(51, 112, 255, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            margin-bottom: 32px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .component-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .component-item {
+            background: #fafafa;
+            border-radius: var(--radius-md);
+            padding: 24px;
+            border: 1px solid var(--border);
+        }
+
+        .component-item.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .component-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+
+        .tip {
+            background: rgba(51, 112, 255, 0.1);
+            border-left: 4px solid var(--primary);
+            padding: 12px 16px;
+            border-radius: 4px;
+            margin-top: 16px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .tip strong {
+            color: var(--primary);
+        }
+
+        /* 1. DatePicker 日期选择 */
+        .date-picker-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .date-picker-input {
+            width: 100%;
+            padding: 10px 16px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            background: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .date-picker-input:hover {
+            border-color: var(--primary);
+        }
+
+        .date-picker-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(51, 112, 255, 0.2);
+            outline: none;
+        }
+
+        .date-picker-panel {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-lg);
+            padding: 16px;
+            z-index: 1000;
+            width: 280px;
+        }
+
+        .date-picker-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .date-picker-nav {
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: var(--radius-sm);
+        }
+
+        .date-picker-nav:hover {
+            background: rgba(51, 112, 255, 0.1);
+        }
+
+        .date-picker-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+        }
+
+        .date-picker-day {
+            padding: 8px;
+            text-align: center;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: var(--radius-sm);
+            transition: all 0.2s ease;
+        }
+
+        .date-picker-day:hover {
+            background: rgba(51, 112, 255, 0.1);
+        }
+
+        .date-picker-day.selected {
+            background: var(--primary-gradient);
+            color: #fff;
+        }
+
+        .date-picker-day.today {
+            border: 2px solid var(--primary);
+        }
+
+        /* 2. Cascader 级联选择 */
+        .cascader-input {
+            width: 100%;
+            padding: 10px 16px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            background: #fff;
+            cursor: pointer;
+        }
+
+        .cascader-panel {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            display: flex;
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-lg);
+            z-index: 1000;
+        }
+
+        .cascader-column {
+            min-width: 150px;
+            max-height: 250px;
+            overflow-y: auto;
+            border-right: 1px solid var(--border);
+        }
+
+        .cascader-column:last-child {
+            border-right: none;
+        }
+
+        .cascader-item {
+            padding: 10px 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .cascader-item:hover {
+            background: rgba(51, 112, 255, 0.1);
+        }
+
+        .cascader-item.active {
+            background: rgba(51, 112, 255, 0.2);
+            color: var(--primary);
+        }
+
+        /* 3. Slider 滑块 */
+        .slider-wrapper {
+            padding: 20px 0;
+        }
+
+        .slider-track {
+            width: 100%;
+            height: 6px;
+            background: var(--border);
+            border-radius: 3px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .slider-fill {
+            height: 100%;
+            background: var(--primary-gradient);
+            border-radius: 3px;
+            width: 60%;
+        }
+
+        .slider-handle {
+            position: absolute;
+            top: 50%;
+            left: 60%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            background: #fff;
+            border: 2px solid var(--primary);
+            border-radius: 50%;
+            box-shadow: var(--shadow-md);
+            cursor: grab;
+            transition: all 0.2s ease;
+        }
+
+        .slider-handle:hover {
+            transform: translate(-50%, -50%) scale(1.2);
+        }
+
+        .slider-value {
+            margin-top: 12px;
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+
+        /* 4. Rate 评分 */
+        .rate-wrapper {
+            display: flex;
+            gap: 4px;
+        }
+
+        .rate-star {
+            font-size: 24px;
+            color: var(--border);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .rate-star.filled {
+            color: var(--yellow);
+        }
+
+        .rate-star.half {
+            background: linear-gradient(90deg, var(--yellow) 50%, var(--border) 50%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .rate-star:hover {
+            transform: scale(1.2);
+        }
+
+        /* 5. Drawer 抽屉 */
+        .drawer-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(4px);
+            z-index: 2000;
+        }
+
+        .drawer {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 400px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            box-shadow: var(--shadow-lg);
+            z-index: 2001;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .drawer-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .drawer-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .drawer-close {
+            cursor: pointer;
+            font-size: 20px;
+            color: var(--text-secondary);
+            transition: all 0.2s ease;
+        }
+
+        .drawer-close:hover {
+            color: var(--primary);
+        }
+
+        .drawer-body {
+            flex: 1;
+            padding: 24px;
+            overflow-y: auto;
+        }
+
+        .drawer-footer {
+            padding: 16px 24px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        /* 6. Tooltip 文字提示 */
+        .tooltip-wrapper {
+            display: inline-block;
+            position: relative;
+        }
+
+        .tooltip-trigger {
+            padding: 10px 20px;
+            background: var(--primary-gradient);
+            color: #fff;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+        }
+
+        .tooltip-content {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.85);
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: var(--radius-sm);
+            font-size: 14px;
+            white-space: nowrap;
+            margin-bottom: 8px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .tooltip-content::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: rgba(0, 0, 0, 0.85);
+        }
+
+        /* 7. Popover 气泡卡片 */
+        .popover-wrapper {
+            display: inline-block;
+            position: relative;
+        }
+
+        .popover-trigger {
+            padding: 10px 20px;
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+        }
+
+        .popover-content {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-lg);
+            padding: 16px;
+            min-width: 200px;
+            margin-bottom: 8px;
+        }
+
+        .popover-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .popover-body {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* 8. Steps 步骤条 */
+        .steps-wrapper {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .steps-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 40px;
+            right: 40px;
+            height: 2px;
+            background: var(--border);
+        }
+
+        .step-item {
+            position: relative;
+            text-align: center;
+            flex: 1;
+        }
+
+        .step-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #fff;
+            border: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .step-item.active .step-icon {
+            background: var(--primary-gradient);
+            border-color: transparent;
+            color: #fff;
+        }
+
+        .step-item.completed .step-icon {
+            background: var(--green);
+            border-color: transparent;
+            color: #fff;
+        }
+
+        .step-title {
+            font-size: 14px;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .step-desc {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        /* 9. Dropdown 下拉菜单 */
+        .dropdown-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-trigger {
+            padding: 10px 20px;
+            background: var(--primary-gradient);
+            color: #fff;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-lg);
+            min-width: 160px;
+            padding: 8px 0;
+            margin-top: 4px;
+            z-index: 1000;
+        }
+
+        .dropdown-item {
+            padding: 10px 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dropdown-item:hover {
+            background: rgba(51, 112, 255, 0.1);
+        }
+
+        .dropdown-item.danger {
+            color: var(--red);
+        }
+
+        .dropdown-divider {
+            height: 1px;
+            background: var(--border);
+            margin: 8px 0;
+        }
+
+        /* 10. Avatar 头像 */
+        .avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--primary-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 20px;
+            font-weight: 600;
+            overflow: hidden;
+            border: 2px solid #fff;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .avatar-group {
+            display: flex;
+        }
+
+        .avatar-group .avatar {
+            margin-left: -8px;
+            border: 2px solid #fff;
+        }
+
+        .avatar-group .avatar:first-child {
+            margin-left: 0;
+        }
+
+        /* 11. Badge 徽章 */
+        .badge-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            min-width: 20px;
+            height: 20px;
+            padding: 0 6px;
+            background: var(--red);
+            color: #fff;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #fff;
+        }
+
+        .badge-dot {
+            min-width: 8px;
+            height: 8px;
+            padding: 0;
+            border-radius: 50%;
+        }
+
+        /* 12. Tag 标签 */
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 12px;
+            font-size: 14px;
+            border-radius: var(--radius-sm);
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+
+        .tag-default {
+            background: #f0f0f0;
+            color: var(--text-primary);
+        }
+
+        .tag-primary {
+            background: rgba(51, 112, 255, 0.1);
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .tag-gradient {
+            background: var(--primary-gradient);
+            color: #fff;
+            border: none;
+        }
+
+        .tag-success {
+            background: rgba(0, 179, 101, 0.1);
+            color: var(--green);
+            border: 1px solid var(--green);
+        }
+
+        .tag-warning {
+            background: rgba(255, 179, 0, 0.1);
+            color: var(--yellow);
+            border: 1px solid var(--yellow);
+        }
+
+        .tag-danger {
+            background: rgba(255, 77, 79, 0.1);
+            color: var(--red);
+            border: 1px solid var(--red);
+        }
+
+        .tag-close {
+            margin-left: 6px;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: all 0.2s ease;
+        }
+
+        .tag-close:hover {
+            opacity: 1;
+        }
+
+        /* 13. Divider 分割线 */
+        .divider {
+            height: 1px;
+            background: var(--border);
+            margin: 24px 0;
+        }
+
+        .divider-with-text {
+            display: flex;
+            align-items: center;
+            margin: 24px 0;
+        }
+
+        .divider-with-text::before,
+        .divider-with-text::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        .divider-text {
+            padding: 0 16px;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        /* 14. Empty 空状态 */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .empty-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+            opacity: 0.3;
+        }
+
+        .empty-title {
+            font-size: 18px;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .empty-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
+
+        /* 15. Tree 树形控件 */
+        .tree-node {
+            padding: 8px 0;
+        }
+
+        .tree-node-content {
+            display: flex;
+            align-items: center;
+            padding: 8px 12px;
+            cursor: pointer;
+            border-radius: var(--radius-sm);
+            transition: all 0.2s ease;
+        }
+
+        .tree-node-content:hover {
+            background: rgba(51, 112, 255, 0.1);
+        }
+
+        .tree-expand {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin-right: 4px;
+        }
+
+        .tree-checkbox {
+            width: 16px;
+            height: 16px;
+            border: 2px solid var(--border);
+            border-radius: 3px;
+            margin-right: 8px;
+            cursor: pointer;
+        }
+
+        .tree-checkbox.checked {
+            background: var(--primary-gradient);
+            border-color: transparent;
+        }
+
+        .tree-label {
+            flex: 1;
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+
+        .tree-children {
+            margin-left: 24px;
+        }
+
+        /* 16. Collapse 折叠面板 */
+        .collapse-item {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            margin-bottom: 8px;
+            overflow: hidden;
+        }
+
+        .collapse-header {
+            padding: 16px 20px;
+            background: #fafafa;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+
+        .collapse-header:hover {
+            background: rgba(51, 112, 255, 0.05);
+        }
+
+        .collapse-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .collapse-arrow {
+            transition: transform 0.3s ease;
+        }
+
+        .collapse-item.active .collapse-arrow {
+            transform: rotate(90deg);
+        }
+
+        .collapse-content {
+            padding: 20px;
+            border-top: 1px solid var(--border);
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* 17. Carousel 走马灯 */
+        .carousel {
+            position: relative;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            height: 300px;
+        }
+
+        .carousel-track {
+            display: flex;
+            height: 100%;
+            transition: transform 0.5s ease;
+        }
+
+        .carousel-slide {
+            min-width: 100%;
+            height: 100%;
+            background: var(--primary-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 32px;
+            font-weight: 600;
+        }
+
+        .carousel-dots {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+        }
+
+        .carousel-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .carousel-dot.active {
+            width: 24px;
+            border-radius: 4px;
+            background: #fff;
+        }
+
+        /* 18. Calendar 日历 */
+        .calendar {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            background: #fafafa;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .calendar-nav {
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: var(--radius-sm);
+        }
+
+        .calendar-nav:hover {
+            background: rgba(51, 112, 255, 0.1);
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+        }
+
+        .calendar-weekday {
+            padding: 12px;
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-secondary);
+            background: #fafafa;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .calendar-day {
+            padding: 12px;
+            text-align: center;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            min-height: 80px;
+        }
+
+        .calendar-day:hover {
+            background: rgba(51, 112, 255, 0.1);
+        }
+
+        .calendar-day.selected {
+            background: rgba(51, 112, 255, 0.2);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .calendar-day.today {
+            background: var(--primary-gradient);
+            color: #fff;
+            border-radius: var(--radius-sm);
+        }
+
+        /* 19. Descriptions 描述列表 */
+        .descriptions {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+        }
+
+        .descriptions-row {
+            display: flex;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .descriptions-row:last-child {
+            border-bottom: none;
+        }
+
+        .descriptions-label {
+            width: 120px;
+            padding: 16px 20px;
+            background: #fafafa;
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .descriptions-value {
+            flex: 1;
+            padding: 16px 20px;
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+
+        /* 20. Message 全局提示 */
+        .message-container {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3000;
+        }
+
+        .message {
+            padding: 12px 24px;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            animation: messageSlideIn 0.3s ease;
+            backdrop-filter: blur(20px);
+        }
+
+        @keyframes messageSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message-icon {
+            font-size: 18px;
+        }
+
+        .message-content {
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+
+        .message-success {
+            background: rgba(0, 179, 101, 0.95);
+            color: #fff;
+        }
+
+        .message-error {
+            background: rgba(255, 77, 79, 0.95);
+            color: #fff;
+        }
+
+        .message-warning {
+            background: rgba(255, 179, 0, 0.95);
+            color: #fff;
+        }
+
+        .message-info {
+            background: rgba(51, 112, 255, 0.95);
+            color: #fff;
+        }
+
+        /* 21. Result 结果页 */
+        .result {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .result-icon {
+            font-size: 72px;
+            margin-bottom: 24px;
+        }
+
+        .result-success .result-icon {
+            color: var(--green);
+        }
+
+        .result-error .result-icon {
+            color: var(--red);
+        }
+
+        .result-warning .result-icon {
+            color: var(--yellow);
+        }
+
+        .result-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+        }
+
+        .result-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .result-actions {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 10px 24px;
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            font-weight: 500;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+            color: #fff;
+        }
+
+        .btn-default {
+            background: #fff;
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 style="color: #fff; text-align: center; margin-bottom: 40px; font-size: 36px;">
+            ✨ 组件库设计稿 - P1/P2 补全组件（20 个）
+        </h1>
+
+        <!-- 1. DatePicker 日期选择 -->
+        <div class="section">
+            <h2 class="section-title">📅 1. DatePicker 日期选择</h2>
+            <div class="component-grid">
+                <div class="component-item">
+                    <div class="component-label">基础日期选择</div>
+                    <div class="date-picker-wrapper">
+                        <input type="text" class="date-picker-input" value="2026-03-04" readonly>
+                    </div>
+                </div>
+                <div class="component-item">
+                    <div class="component-label">日期范围选择</div>
+                    <div class="date-picker-wrapper">
+                        <input type="text" class="date-picker-input" value="2026-03-01 ~ 2026-03-31" readonly>
+                    </div>
+                </div>
+            </div>
+            <div class="tip">
+                <strong>💡 设计说明：</strong> 圆角 8px，聚焦#3370FF 光晕，日期面板带渐变选中效果，今日标记蓝色边框
+            </div>
+        </div>
+
+        <!-- 2. Cascader 级联选择 -->
+        <div class="section">
+            <h2 class="section-title">🔗 2. Cascader 级联选择</h2>
+            <div class="component-grid">
+                <div class="component-item full-width">
+                    <div class="component-label">多级选择</div>
+                    <div class="cascader-wrapper" style="position: relative;">
+                        <input type="text" class="cascader-input" value="浙江省 / 杭州市 / 西湖区" readonly>
+                        <div class="cascader-panel" style="position: absolute; top: 100%; left: 0; right: 0; margin-top: 4px;">
+                            <div class="cascader-column">
+                                <div class="cascader-item">浙江省</div>
+                                <div class="cascader-item active">江苏省</div>
+                                <div class="cascader-item">广东省</div>
+                            </div>
+                            <div class="cascader-column">
+                                <div class="cascader-item">南京市</div>
+                                <div class="cascader-item active">苏州市</div>
+                                <div class="cascader-item">无锡市</div>
+                            </div>
+                            <div class="cascader-column">
+                                <div class="cascader-item">姑苏区</div>
+                                <div class="cascader-item active">工业园区</div>
+                                <div class="cascader-item">高新区</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tip">
+                <strong>💡 设计说明：</strong> 多列联动，选中项主色背景，悬停浅蓝色背景
+            </div>
+        </div>
+
+        <!-- 3. Slider 滑块 -->
+        <div class="section">
+            <h2 class="section-title">📊 3. Slider 滑块</h2>
+            <div class="component-grid">
+                <div class="component-item full-width">
+                    <div class="component-label">单滑块</div>
+                    <div class="slider-wrapper">
+                        <div class="slider-track">
+                            <div class="slider-fill" style="width: 60%;"></div>
+                            <div class="slider-handle" style="left: 60%;"></div>
+                        </div>
+                        <div class="slider-value">当前值：60</div>
+                    </div>
+                </div>
+                <div class="component-item full-width">
+                    <div class="component-label">双滑块（范围选择）</div>
+                    <div class="slider-wrapper">
+                        <div class="slider-track">
+                            <div class="slider-fill" style="width: 40%; left: 30%;"></div>
+                            <div class="slider-handle" style="left: 30%;"></div>
+                            <div class="slider-handle" style="left: 70%;"></div>
+                        </div>
+                        <div class="slider-value">范围：30 - 70</div>
+                    </div>
+                </div>
+            </div>
+            <div class="tip">
+                <strong>💡 设计说明：</strong> 轨道高度 6px，滑块 20px 圆形带阴影，悬停放大，蓝紫渐变填充
+            </div>
+        </div>
+
+        <!-- 4. Rate 评分 -->
+        <div class="section">
+            <h2 class="section-title">⭐ 4. Rate 评分</h2>
+            <div class="component-grid">
+                <div class="component-item">
+                    <div class="component-label">未评分</div>
+                    <div class="rate-wrapper">
+                        <span class="rate-star">☆</span>
+                        <span class="rate-star">☆</span>
+                        <span class="rate-star">☆</span>
+                        <span class="rate-star">☆</span>
+                        <span class="rate-star">☆</span>
+                    </div>
+                </div>
+                <div class="component-item">
+                    <div class="component-label">已评分（4.5 星）</div>
+                    <div class="rate-wrapper">
+                        <span class="rate-star filled">★</span>
+                        <span class="rate-star filled">★</span>
+                        <span class="rate-star filled">★</span>
+                        <span class="rate-star filled">★</span>
+                        <span class="rate-star half">★</span>
+                    </div>
+                </div>
+            </div>
+            <div class="tip">
+                <strong>💡 设计说明：</strong> 24px 星型，未评分灰色，已评分黄色，悬停放大效果
+            </div>
+        </div>
+
+        <!-- 5. Drawer 抽屉 -->
+        <div class="section">
+            <h2 class="section-title">🗄️ 5. Drawer 抽屉</h2>
+            <div class="component-grid">
+                <div class="component-item full-width">
+                    <div class="component-label">右侧抽屉</div>
+                    <div style="position: relative; height: 400px; overflow: hidden;">
+                        <div class="drawer-overlay" style="position: absolute;"></div>
+                        <div class="drawer" style="position: absolute;">
+                            <div class="drawer-header">
+                                <div class="drawer-title">抽屉标题</div>
+                                <div class="drawer-close">✕</div>
+                            </div>
+                            <div class="drawer-body">
+                                <p>这里是抽屉内容区域，可以放置表单、详情信息等。</p>
+                                <p style="margin-top: 16px; color: var(--text-secondary);">抽屉支持从左侧、右侧、顶部、底部滑出。</p>
+                            </div>
+                            <div class="drawer-footer">
+                                <button class="btn btn-default">取消</button>
+                                <button class="btn btn-primary">确认</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tip">
+                <strong>💡 设计说明：</strong> 玻璃态背景，圆角 0（贴边），滑入动画，多层蓝色阴影
+            </div>
+        </div>
+
+        <!-- 6. Tooltip 文字提示 -->
+        <div class="section">
+            <h2 class="section-title">💬 6. Tooltip 文字提示</h2>
+            <div class="component-grid">
+                <div class="component-item">
+                    <div class="component-label">上方提示</div>
+                    <div class="tooltip-wrapper">
+                        <div class="tooltip-content">这是提示文字</div>
+                        <div class="tooltip-trigger">悬停显示</div>
+                    </div>
+                </div>
+                <div class="component-item">
+                    <div class="component-label">下方提示</div>
+                    <div class="tooltip-wrapper">
+                        <div class="tooltip-trigger">悬停显示</div>
+                    </div>
+                </div>
+            </div>
+            <div class="tip">
+                <strong>💡 设计说明：</strong> 黑色半透明背景，白色文字，圆角 6px，带小三角指向
+            </div>
+        </div>
+
+        <!-- 7. Popover 气泡卡片 -->
+        <div class="section">
+            <h2 class="section-title">🎈 7. Popover 气泡卡片</h2>
+            <div class="component-grid">
+                <div class="component-item">
+                    <div class="component-label">基础气泡</div>
+                    <div class="popover-wrapper">
+                        <div class="popover-content">
+                            <div class="popover-title">标题</div>
+                            <div class="popover-body">这是气泡卡片的详细内容，可以包含文字、链接、按钮等。</div>
+                        </div>
+                        <div class="popover-trigger">点击显示</div>
+                    </div>
+                </div>
+            </div>
+            <div class="tip">
+                <strong>💡 设计说明：</strong> 白色背景，边框 + 阴影，圆角 8px，支持标题 + 内容结构
+            </div>
+        </div>
+
+        <!-- 8. Steps 步骤条 -->
+        <div class="section">
+            <h2 class="section-title">👣 8. Steps 步骤条</h2>
+            <div class="component-grid">
+                <div class="component-item full-width">
+                    <div class="component-label">水平步骤条</div>
+                    <div class="steps-wrapper">
+                        <div class="step-item completed">
+                            <div class="step-icon">✓</div>
+                            <div class="step-title">提交申请</div>
+                            <div class="step-desc">2026-03-01</div>
+                        </div>
+                        <div class="step-item completed">
+                            <div class="step-icon">✓</div>
+                            <div class="step-title">审核中</div>
+                            <div class="step-desc">2026-03-02</div>
+                        </div>
+                        <div class="step-item active">
+                            <div class="step-icon">3</div>
+                            <div class="step-title">审批</div>
+                            <div class="step-desc">进行中</div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-icon">4</div>
+                            <div class="step-title">完成</div>
+                            <div class="step-desc">待处理</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tip">
+                <strong>💡 设计说明：</strong> 完成绿色，进行中蓝紫渐变，待处理灰色，连接线贯穿
+            </div>
+        </div>
+
+        <!-- 9. Dropdown 下拉菜单 -->
+        <div class="section">
+            <h2 class="section-title">📋 9. Dropdown 下拉菜单</h2>
+            <div class="component-grid">
+                <div class="component-item">
+                    <div class="component-label">基础下拉</div>
+                    <div class="dropdown-wrapper">
+                        <div class="dropdown-trigger">
+                            更多操作
+                            <span>▼</span>
+                        </div>
+                        <div class="dropdown-menu">
+                            <div class="dropdown-item">📝 编辑</div>
+                            <div class="dropdown-item">📋 复制</div>
+                            <div class="dropdown-item">🗑️ 删除</div>
+                            <div class="dropdown-divider"></div>
+                            <div class="dropdown-item danger">⚠️ 删除</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tip">
+                <strong>💡 设计说明：</strong> 白色背景，悬停浅蓝背景，危险操作红色文字，支持分割线
+            </div>
+        </div>
+
+        <!-- 10. Avatar 头像 -->
+        <div class="section">
+            <h2 class="section-title">👤 10. Avatar 头像</h2>
+            <div class="component-grid">
+                <div class="component-item">
+                    <div class="component-label">头像</div>
+                    <div class="avatar">青</div>
+                </div>
+                <div class="component-item">
+                    <div class="component-label">头像组</div>
+                    <div class="avatar-group">
+                        <div class="avatar" style="background: linear-gradient(135deg, #667eea, #764ba2);">A</div>
+                        <div class="avatar" style="background: linear-gradient(135deg, #f093fb, #f5576c);">B</div>
+                        <div class="avatar" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">C</div>
+                        <div class="avatar" style="background: linear-gradient(135deg, #43e97b, #38f9d7);">+3</div>
+                    </div>
+                </div>
+            </div>
+            <div class="tip">
+                <strong>💡 设计说明：</strong> 圆形，蓝紫渐变背景，头像组负间距重叠，白色边框
+            </div>
+        </div>
+
+        <!-- 11. Badge 徽章 -->
+        <div class="section">
+            <h2 class="section-title">🔴 11. Badge 徽章</h2>
+            <div class="component-grid">
+                <div class="component-item">
+                    <div class="component-label">数字徽章</div>
+                    <div class="badge-wrapper">
+                        <div class="avatar" style="width: 40px; height: 40px; font-size: 16px;">信</div>
+                        <div class="badge">5</div>
+                    </div>
+                </div>
+                <div class="component-item">
+                    <div class="component-label">红点徽章</div>
+                    <div class="badge-wrapper">
+                        <div class="avatar" style="width: 40px; height: 40px; font-size: 16px;">评</div>
+                        <div class="badge badge-dot"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="tip">
+                <strong>💡 设计说明：</strong> 红色背景，白色文字，圆角 10px，白色边框，红点模式 8px
+            </div>
+        </div>
+
+        <!-- 12. Tag 标签 -->
+        <div class="section">
+            <h2 class="section-title">🏷️ 12. Tag 标签</h2>
+            <div class="component-grid">
+                <div class="component-item full-width">
+                    <div class="component-label">多种样式</div>
+                    <div>
+                        <span class="tag tag-default">默认</span>
+                        <span class="tag tag-primary">主色</span>
+                        <span class="tag tag-gradient">渐变</span>
+                        <span class="tag tag-success">成功</span>
+                        <span class="tag tag-warning">警告</span>
+                        <span class="tag tag-danger">危险</span>
+                        <span class="tag tag-primary">可关闭<span class="tag-close">✕</span></span>
+                    </div>
+                </div>
+            </div>
+            <div class="tip">
+                <strong>💡 设计说明：</strong> 圆角 6px，多种配色，支持关闭按钮，渐变标签蓝紫背景
+            </div>
+        </div>
+
+        <!-- 13. Divider 分割线 -->
+        <div class="section">
+            <h2 class="section-title">➖ 13. Divider 分割线</h2>
+            <div class="component-grid">
+                <div class="component-item full-width">
+                    <div class="component-label">基础分割线</div>
+                    <div class="divider"></div>
+                </div>
+                <div class="component-item full-width">
+                    <div class="component-label">带文字分割线</div>
+                    <div class="divider-with-text">
+                        <span class="divider-text">更多选项</span>
+                    </div>
+                </div>
+            </div>
+            <div class="tip">
+                <strong>💡 设计说明：</strong> 1px 高度，灰色，支持文字居中
+            </div>
+        </div>
+
+        <!-- 14. Empty 空状态 -->
+        <div class="section">
+            <h2 class="section-title">📭 14. Empty 空状态</h2>
+            <div class="component-grid">
+                <div class="component-item full-width">
+                    <div class="empty-state">
+                        <div class="empty-icon">📭</div>
+                        <div class="empty-title">暂无数据</div>
+                        <div class="empty-desc">当前还没有任何内容，点击上方按钮添加第一条数据吧</div>
+                        <button class="btn btn-primary">+ 添加数据</button>
+                    </div>
+                </div>
+            </div>
+            <div class="tip">
+                <strong>💡 设计说明：</strong> 居中布局，大图标 + 标题 + 描述 + 操作按钮
+            </div>
+        </div>
+
+        <!-- 15. Tree 树形控件 -->
+        <div class="section">
+            <h2 class="section-title">🌳 15. Tree 树形控件</h2>
+            <div class="component-grid">
+                <div class="component-item full-width">
+                    <div class="component-label">可勾选树</div>
+                    <div class="tree-node">
+                        <div class="tree-node-content">
+                            <span class="tree-expand">▼</span>
+                            <div class="tree-checkbox checked"></div>
+                            <span class="tree-label">公司架构</span>
+                        </div>
+                        <div class="tree-children">
+                            <div class="tree-node">
+                                <div class="tree-node-content">
+                                    <span class="tree-expand">▶</span>
+                                    <div class="tree-checkbox checked"></div>
+                                    <span class="tree-label">技术部</span>
+                                </div>
+                            </div>
+                            <div class="tree-node">
+                                <div class="tree-node-content">
+                                    <span class="tree-expand">▶</span>
+                                    <div class="tree-checkbox"></div>
+                                    <span class="tree-label">产品部</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tip">
+                <strong>💡 设计说明：</strong> 缩进层级，复选框支持勾选，展开/收起箭头，悬停背景
+            </div>
+        </div>
+
+        <!-- 16. Collapse 折叠面板 -->
+        <div class="section">
+            <h2 class="section-title">📂 16. Collapse 折叠面板</h2>
+            <div class="component-grid">
+                <div class="component-item full-width">
+                    <div class="component-label">手风琴模式</div>
+                    <div class="collapse-item active">
+                        <div class="collapse-header">
+                            <span class="collapse-title">📋 产品需求文档</span>
+                            <span class="collapse-arrow">▶</span>
+                        </div>
+                        <div class="collapse-content">
+                            这里是折叠面板的内容区域，可以放置详细说明、表单、列表等内容。点击标题可以展开/收起。
+                        </div>
+                    </div>
+                    <div class="collapse-item">
+                        <div class="collapse-header">
+                            <span class="collapse-title">🎨 UI 设计稿</span>
+                            <span class="collapse-arrow">▶</span>
+                        </div>
+                    </div>
+                    <div class="collapse-item">
+                        <div class="collapse-header">
+                            <span class="collapse-title">🧪 测试报告</span>
+                            <span class="collapse-arrow">▶</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tip">
+                <strong>💡 设计说明：</strong> 圆角 8px，浅灰背景标题，箭头旋转动画，边框分隔
+            </div>
+        </div>
+
+        <!-- 17. Carousel 走马灯 -->
+        <div class="section">
+            <h2 class="section-title">🎠 17. Carousel 走马灯</h2>
+            <div class="component-grid">
+                <div class="component-item full-width">
+                    <div class="component-label">轮播图</div>
+                    <div class="carousel">
+                        <div class="carousel-track">
+                            <div class="carousel-slide">第一屏</div>
+                        </div>
+                        <div class="carousel-dots">
+                            <div class="carousel-dot active"></div>
+                            <div class="carousel-dot"></div>
+                            <div class="carousel-dot"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tip">
+                <strong>💡 设计说明：</strong> 蓝紫渐变背景，圆角 12px，指示器圆点，激活状态拉长
+            </div>
+        </div>
+
+        <!-- 18. Calendar 日历 -->
+        <div class="section">
+            <h2 class="section-title">📆 18. Calendar 日历</h2>
+            <div class="component-grid">
+                <div class="component-item full-width">
+                    <div class="component-label">月历</div>
+                    <div class="calendar">
+                        <div class="calendar-header">
+                            <span class="calendar-nav">◀</span>
+                            <span style="font-weight: 600;">2026 年 3 月</span>
+                            <span class="calendar-nav">▶</span>
+                        </div>
+                        <div class="calendar-grid">
+                            <div class="calendar-weekday">日</div>
+                            <div class="calendar-weekday">一</div>
+                            <div class="calendar-weekday">二</div>
+                            <div class="calendar-weekday">三</div>
+                            <div class="calendar-weekday">四</div>
+                            <div class="calendar-weekday">五</div>
+                            <div class="calendar-weekday">六</div>
+                        </div>
+                        <div class="calendar-grid">
+                            <div class="calendar-day" style="color: #ccc;">1</div>
+                            <div class="calendar-day" style="color: #ccc;">2</div>
+                            <div class="calendar-day">3</div>
+                            <div class="calendar-day today">4</div>
+                            <div class="calendar-day">5</div>
+                            <div class="calendar-day">6</div>
+                            <div class="calendar-day">7</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tip">
+                <strong>💡 设计说明：</strong> 网格布局，今日蓝紫渐变背景，选中浅蓝背景，悬停效果
+            </div>
+        </div>
+
+        <!-- 19. Descriptions 描述列表 -->
+        <div class="section">
+            <h2 class="section-title">📝 19. Descriptions 描述列表</h2>
+            <div class="component-grid">
+                <div class="component-item full-width">
+                    <div class="component-label">详情展示</div>
+                    <div class="descriptions">
+                        <div class="descriptions-row">
+                            <div class="descriptions-label">用户名</div>
+                            <div class="descriptions-value">青鸾</div>
+                        </div>
+                        <div class="descriptions-row">
+                            <div class="descriptions-label">角色</div>
+                            <div class="descriptions-value">产品经理</div>
+                        </div>
+                        <div class="descriptions-row">
+                            <div class="descriptions-label">邮箱</div>
+                            <div class="descriptions-value">qingluan@company.com</div>
+                        </div>
+                        <div class="descriptions-row">
+                            <div class="descriptions-label">部门</div>
+                            <div class="descriptions-value">产品部</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tip">
+                <strong>💡 设计说明：</strong> 标签浅灰背景，值白色背景，边框分隔，整齐排列
+            </div>
+        </div>
+
+        <!-- 20. Message 全局提示 -->
+        <div class="section">
+            <h2 class="section-title">🔔 20. Message 全局提示</h2>
+            <div class="component-grid">
+                <div class="component-item full-width">
+                    <div class="component-label">四种类型</div>
+                    <div style="position: relative; height: 200px;">
+                        <div class="message-container" style="position: absolute;">
+                            <div class="message message-success">
+                                <span class="message-icon">✓</span>
+                                <span class="message-content">操作成功！</span>
+                            </div>
+                            <div class="message message-error">
+                                <span class="message-icon">✕</span>
+                                <span class="message-content">操作失败，请重试</span>
+                            </div>
+                            <div class="message message-warning">
+                                <span class="message-icon">⚠</span>
+                                <span class="message-content">请注意，该操作不可恢复</span>
+                            </div>
+                            <div class="message message-info">
+                                <span class="message-icon">ℹ</span>
+                                <span class="message-content">系统正在维护中...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tip">
+                <strong>💡 设计说明：</strong> 顶部居中，滑入动画，玻璃态背景，四种配色（成功绿/错误红/警告黄/信息蓝）
+            </div>
+        </div>
+
+        <!-- 21. Result 结果页 -->
+        <div class="section">
+            <h2 class="section-title">✅ 21. Result 结果页</h2>
+            <div class="component-grid">
+                <div class="component-item full-width">
+                    <div class="component-label">成功结果</div>
+                    <div class="result result-success">
+                        <div class="result-icon">✓</div>
+                        <div class="result-title">提交成功</div>
+                        <div class="result-desc">您的申请已成功提交，我们将在 1-3 个工作日内完成审核，请耐心等待。</div>
+                        <div class="result-actions">
+                            <button class="btn btn-default">返回首页</button>
+                            <button class="btn btn-primary">查看详情</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="component-item full-width">
+                    <div class="component-label">失败结果</div>
+                    <div class="result result-error">
+                        <div class="result-icon">✕</div>
+                        <div class="result-title">提交失败</div>
+                        <div class="result-desc">由于网络原因，您的提交失败了。请检查网络连接后重试，或联系客服人员。</div>
+                        <div class="result-actions">
+                            <button class="btn btn-default">返回首页</button>
+                            <button class="btn btn-primary">重新提交</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tip">
+                <strong>💡 设计说明：</strong> 居中布局，大图标 + 标题 + 描述 + 操作按钮，成功绿色/失败红色
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 40px;">
+            <p style="color: rgba(255,255,255,0.8); font-size: 14px;">
+                ✨ 设计系统核心优势：统一色彩 · 流畅动效 · 玻璃态 · 响应式
+            </p>
+            <p style="color: rgba(255,255,255,0.6); font-size: 12px; margin-top: 8px;">
+                P1/P2 组件设计稿完成 - 共 20 个组件
+            </p>
+        </div>
+    </div>
+</body>
+</html>
