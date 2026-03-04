@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新设计系统视觉 Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #F5F7FF 0%, #EBF1FF 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #3370FF;
+            font-size: 32px;
+            margin-bottom: 40px;
+            font-weight: 600;
+        }
+
+        h2 {
+            color: #1D2129;
+            font-size: 24px;
+            margin: 40px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3370FF;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(51, 112, 255, 0.1);
+        }
+
+        /* 色彩展示区 */
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .color-block {
+            height: 120px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 500;
+            font-size: 14px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .color-block:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .primary { background: #3370FF; }
+        .gradient-blue-purple { background: linear-gradient(135deg, #3370FF 0%, #722ED1 100%); }
+        .tech-purple { background: #722ED1; }
+        .fresh-cyan { background: #33C3B0; }
+        .vibrant-orange { background: #FF7A45; }
+        .success-green { background: #00B365; }
+        .warning-yellow { background: #FFB300; }
+        .error-red { background: #FF4D4F; }
+
+        .color-palette {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .color-swatch {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: white;
+            font-weight: 500;
+        }
+
+        /* 按钮组件 */
+        .button-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            outline: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #3370FF 0%, #722ED1 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(51, 112, 255, 0.4);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #3370FF;
+            border: 2px solid #3370FF;
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(51, 112, 255, 0.2);
+            background: #3370FF;
+            color: white;
+        }
+
+        .btn-text {
+            background: transparent;
+            color: #3370FF;
+            padding: 12px 16px;
+        }
+
+        .btn-text:hover {
+            background: rgba(51, 112, 255, 0.1);
+            border-radius: 8px;
+        }
+
+        /* 卡片组件 */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .card {
+            border-radius: 12px;
+            padding: 24px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .card-glass {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 16px rgba(51, 112, 255, 0.1);
+        }
+
+        .card-glass:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(51, 112, 255, 0.2);
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .card-gradient {
+            background: linear-gradient(135deg, #3370FF 0%, #722ED1 100%);
+            color: white;
+        }
+
+        .card-gradient:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(114, 46, 209, 0.3);
+        }
+
+        .card h3 {
+            margin-bottom: 12px;
+            font-size: 18px;
+        }
+
+        .card p {
+            font-size: 14px;
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+
+        /* 输入框 */
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 400px;
+            margin-top: 20px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper label {
+            display: block;
+            margin-bottom: 8px;
+            color: #1D2129;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #E5E6EB;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            outline: none;
+            background: white;
+        }
+
+        .input:hover {
+            border-color: #3370FF;
+            box-shadow: 0 0 0 3px rgba(51, 112, 255, 0.1);
+        }
+
+        .input:focus {
+            border-color: #3370FF;
+            box-shadow: 0 0 0 4px rgba(51, 112, 255, 0.2);
+        }
+
+        .input-state {
+            font-size: 12px;
+            color: #86909C;
+            margin-top: 6px;
+        }
+
+        /* 背景展示 */
+        .background-demo {
+            border-radius: 12px;
+            padding: 40px;
+            margin-top: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bg-gradient {
+            background: linear-gradient(135deg, #F5F7FF 0%, #EBF1FF 100%);
+        }
+
+        .bg-glass {
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* 动效展示 */
+        .animation-demo {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .loading-bar {
+            width: 100%;
+            height: 8px;
+            background: #E5E6EB;
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .loading-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 50%;
+            background: linear-gradient(90deg, #3370FF, #722ED1, #3370FF);
+            background-size: 200% 100%;
+            animation: loading 2s ease-in-out infinite;
+            border-radius: 4px;
+        }
+
+        @keyframes loading {
+            0% {
+                left: -50%;
+            }
+            100% {
+                left: 100%;
+            }
+        }
+
+        .float-demo {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .float-box {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #3370FF 0%, #722ED1 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .float-box:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 32px rgba(51, 112, 255, 0.3);
+        }
+
+        /* 对比展示 */
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .comparison-item {
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        .old-version {
+            background: #F5F5F5;
+            border: 2px solid #D9D9D9;
+        }
+
+        .new-version {
+            background: linear-gradient(135deg, rgba(51, 112, 255, 0.1) 0%, rgba(114, 46, 209, 0.1) 100%);
+            border: 2px solid #3370FF;
+        }
+
+        .comparison-label {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            padding: 8px 16px;
+            border-radius: 6px;
+            display: inline-block;
+        }
+
+        .label-old {
+            background: #D9D9D9;
+            color: #666;
+        }
+
+        .label-new {
+            background: linear-gradient(135deg, #3370FF 0%, #722ED1 100%);
+            color: white;
+        }
+
+        .old-btn {
+            padding: 10px 20px;
+            background: #1890FF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .new-btn {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #3370FF 0%, #722ED1 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .new-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(51, 112, 255, 0.4);
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .comparison {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            h2 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 新设计系统视觉规范 Demo</h1>
+        
+        <!-- 1. 色彩展示区 -->
+        <div class="section">
+            <h2>1. 色彩系统</h2>
+            <div class="color-grid">
+                <div class="color-block primary">#3370FF<br>主色</div>
+                <div class="color-block gradient-blue-purple">蓝紫渐变<br>#3370FF → #722ED1</div>
+                <div class="color-block tech-purple">#722ED1<br>科技紫</div>
+                <div class="color-block fresh-cyan">#33C3B0<br>清新青</div>
+                <div class="color-block vibrant-orange">#FF7A45<br>活力橙</div>
+                <div class="color-block success-green">#00B365<br>成功绿</div>
+                <div class="color-block warning-yellow">#FFB300<br>警告黄</div>
+                <div class="color-block error-red">#FF4D4F<br>错误红</div>
+            </div>
+            
+            <h3 style="margin-top: 30px; color: #1D2129;">辅色色板</h3>
+            <div class="color-palette">
+                <div class="color-swatch" style="background: #3370FF;">#3370FF</div>
+                <div class="color-swatch" style="background: #5985FF;">#5985FF</div>
+                <div class="color-swatch" style="background: #7F9AFF;">#7F9AFF</div>
+                <div class="color-swatch" style="background: #A6B0FF;">#A6B0FF</div>
+                <div class="color-swatch" style="background: #CCC5FF;">#CCC5FF</div>
+            </div>
+        </div>
+
+        <!-- 2. 按钮组件展示 -->
+        <div class="section">
+            <h2>2. 按钮组件</h2>
+            <div class="button-group">
+                <button class="btn btn-primary">主按钮</button>
+                <button class="btn btn-secondary">次按钮</button>
+                <button class="btn btn-text">文字按钮</button>
+            </div>
+            <p style="margin-top: 15px; color: #86909C; font-size: 14px;">💡 悬停效果：上浮 2px + 阴影加深</p>
+        </div>
+
+        <!-- 3. 卡片组件展示 -->
+        <div class="section">
+            <h2>3. 卡片组件</h2>
+            <div class="card-grid">
+                <div class="card card-glass">
+                    <h3>🪟 玻璃态卡片</h3>
+                    <p>半透明背景 + 背景模糊效果，悬停时上浮并增强阴影，圆角 12px</p>
+                </div>
+                <div class="card card-gradient">
+                    <h3>🌈 渐变卡片</h3>
+                    <p>蓝紫渐变背景，悬停时上浮并增加紫色阴影，视觉冲击力强</p>
+                </div>
+                <div class="card card-glass">
+                    <h3>✨ 交互反馈</h3>
+                    <p>所有卡片支持悬停交互，提供流畅的视觉反馈体验</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. 输入框展示 -->
+        <div class="section">
+            <h2>4. 输入框组件</h2>
+            <div class="input-group">
+                <div class="input-wrapper">
+                    <label>正常状态</label>
+                    <input type="text" class="input" placeholder="请输入内容...">
+                    <div class="input-state">默认边框 #E5E6EB</div>
+                </div>
+                <div class="input-wrapper">
+                    <label>悬停状态（将鼠标移入）</label>
+                    <input type="text" class="input" placeholder="悬停时边框变主色...">
+                    <div class="input-state">悬停时显示主色光晕</div>
+                </div>
+                <div class="input-wrapper">
+                    <label>聚焦状态（点击输入）</label>
+                    <input type="text" class="input" placeholder="聚焦时光晕增强...">
+                    <div class="input-state">聚焦时 #3370FF 光晕 +4px</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. 背景展示 -->
+        <div class="section">
+            <h2>5. 背景系统</h2>
+            <div class="background-demo bg-gradient">
+                <h3 style="color: #1D2129; margin-bottom: 15px;">主背景渐变</h3>
+                <p style="color: #595959;">#F5F7FF → #EBF1FF</p>
+                <div class="background-demo bg-glass" style="margin-top: 20px;">
+                    <h3 style="color: #1D2129; margin-bottom: 15px;">🪟 玻璃态效果</h3>
+                    <p style="color: #595959;">backdrop-filter: blur(20px) + 半透明白色背景</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. 动效展示 -->
+        <div class="section">
+            <h2>6. 动效系统</h2>
+            <div class="animation-demo">
+                <div>
+                    <h3 style="color: #1D2129; margin-bottom: 15px;">🎬 渐变加载条</h3>
+                    <div class="loading-bar"></div>
+                    <p style="margin-top: 10px; color: #86909C; font-size: 14px;">蓝紫渐变流动动画</p>
+                </div>
+                
+                <div>
+                    <h3 style="color: #1D2129; margin-bottom: 15px;">🎈 悬停上浮动画</h3>
+                    <div class="float-demo">
+                        <div class="float-box">悬停我</div>
+                        <div class="float-box">试试我</div>
+                        <div class="float-box">点我呀</div>
+                    </div>
+                    <p style="margin-top: 10px; color: #86909C; font-size: 14px;">transform: translateY(-8px) + 阴影增强</p>
+                </div>
+                
+                <div>
+                    <h3 style="color: #1D2129; margin-bottom: 15px;">✨ 淡入上浮入场</h3>
+                    <p style="color: #86909C; font-size: 14px;">页面加载时自动播放（查看 body 的 fadeIn 动画）</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 7. 新旧对比 -->
+        <div class="section">
+            <h2>7. 新旧版本对比</h2>
+            <div class="comparison">
+                <div class="comparison-item old-version">
+                    <span class="comparison-label label-old">旧版设计</span>
+                    <button class="old-btn">普通按钮</button>
+                    <p style="margin-top: 15px; color: #666; font-size: 14px;">
+                        • 纯色背景<br>
+                        • 直角 4px<br>
+                        • 无悬停动效<br>
+                        • 单一色彩
+                    </p>
+                </div>
+                <div class="comparison-item new-version">
+                    <span class="comparison-label label-new">新版设计</span>
+                    <button class="new-btn">渐变按钮</button>
+                    <p style="margin-top: 15px; color: #595959; font-size: 14px;">
+                        • 渐变背景<br>
+                        • 圆角 8px<br>
+                        • 悬停上浮 + 阴影<br>
+                        • 蓝紫色彩体系
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 总结 -->
+        <div class="section" style="text-align: center; margin-top: 40px;">
+            <h2 style="border: none; text-align: center;">✨ 设计系统核心优势</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 20px;">
+                <div>
+                    <div style="font-size: 32px; margin-bottom: 10px;">🎨</div>
+                    <h3 style="color: #3370FF; margin-bottom: 8px;">统一色彩</h3>
+                    <p style="color: #86909C; font-size: 14px;">蓝紫渐变主色调</p>
+                </div>
+                <div>
+                    <div style="font-size: 32px; margin-bottom: 10px;">✨</div>
+                    <h3 style="color: #3370FF; margin-bottom: 8px;">流畅动效</h3>
+                    <p style="color: #86909C; font-size: 14px;">悬停上浮 + 渐变</p>
+                </div>
+                <div>
+                    <div style="font-size: 32px; margin-bottom: 10px;">🪟</div>
+                    <h3 style="color: #3370FF; margin-bottom: 8px;">玻璃态</h3>
+                    <p style="color: #86909C; font-size: 14px;">现代模糊效果</p>
+                </div>
+                <div>
+                    <div style="font-size: 32px; margin-bottom: 10px;">📱</div>
+                    <h3 style="color: #3370FF; margin-bottom: 8px;">响应式</h3>
+                    <p style="color: #86909C; font-size: 14px;">全设备适配</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 扩展组件导航 -->
+        <div class="section" style="text-align: center; margin-top: 40px;">
+            <h2 style="border: none; text-align: center;">🚀 扩展组件 Demo</h2>
+            <p style="color: #86909C; font-size: 14px; margin-bottom: 24px;">更多组件已添加到独立页面，点击下方链接查看</p>
+            <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+                <a href="visual-demo-form.html" class="btn btn-primary" style="text-decoration: none; display: inline-block;">📝 表单组件</a>
+                <a href="visual-demo-list.html" class="btn btn-primary" style="text-decoration: none; display: inline-block;">📋 列表组件</a>
+                <a href="visual-demo-data.html" class="btn btn-primary" style="text-decoration: none; display: inline-block;">📊 数据展示与反馈</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 添加简单的交互日志
+        document.querySelectorAll('.btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                console.log('按钮被点击:', btn.textContent);
+            });
+        });
+
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('click', () => {
+                console.log('卡片被点击:', card.querySelector('h3').textContent);
+            });
+        });
+
+        console.log('%c🎨 新设计系统 Demo 已加载', 'color: #3370FF; font-size: 16px; font-weight: bold;');
+        console.log('%c✨ 体验所有悬停效果，感受新规范的视觉魅力！', 'color: #722ED1; font-size: 14px;');
+    </script>
+</body>
+</html>
