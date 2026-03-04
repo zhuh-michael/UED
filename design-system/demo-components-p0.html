@@ -1,0 +1,773 @@
+<!-- P0 必备组件设计稿 - 补全内容 -->
+<!-- 设计风格：蓝紫渐变 #3370FF → #722ED1，圆角 8px，玻璃态效果 -->
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>组件库设计稿 - P0 补全组件</title>
+    <style>
+        :root {
+            --primary: #3370FF;
+            --primary-gradient: linear-gradient(135deg, #3370FF 0%, #722ED1 100%);
+            --purple: #722ED1;
+            --cyan: #33C3B0;
+            --orange: #FF7A45;
+            --green: #00B365;
+            --yellow: #FFB300;
+            --red: #FF4D4F;
+            --border: #E5E6EB;
+            --text-primary: rgba(0, 0, 0, 0.85);
+            --text-secondary: rgba(0, 0, 0, 0.45);
+            --radius-sm: 6px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --shadow-sm: 0 2px 8px rgba(51, 112, 255, 0.1);
+            --shadow-md: 0 4px 16px rgba(51, 112, 255, 0.2);
+            --shadow-lg: 0 8px 32px rgba(51, 112, 255, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            margin-bottom: 32px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .component-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .component-item {
+            background: #fafafa;
+            border-radius: var(--radius-md);
+            padding: 24px;
+            border: 1px solid var(--border);
+        }
+
+        .component-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+
+        /* 1. Select 下拉选择 */
+        .select-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .select-input {
+            width: 100%;
+            padding: 10px 16px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            background: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .select-input:hover {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(51, 112, 255, 0.1);
+        }
+
+        .select-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(51, 112, 255, 0.2);
+            outline: none;
+        }
+
+        .select-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+            margin-top: 4px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+        .select-option {
+            padding: 10px 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .select-option:hover {
+            background: rgba(51, 112, 255, 0.1);
+        }
+
+        .select-option.selected {
+            background: rgba(51, 112, 255, 0.2);
+            color: var(--primary);
+        }
+
+        /* 2. Checkbox 复选框 */
+        .checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .checkbox {
+            width: 18px;
+            height: 18px;
+            border: 2px solid var(--border);
+            border-radius: 4px;
+            position: relative;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .checkbox-wrapper:hover .checkbox {
+            border-color: var(--primary);
+        }
+
+        .checkbox.checked {
+            background: var(--primary-gradient);
+            border-color: transparent;
+        }
+
+        .checkbox.checked::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #fff;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        /* 3. Radio 单选框 */
+        .radio-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .radio {
+            width: 18px;
+            height: 18px;
+            border: 2px solid var(--border);
+            border-radius: 50%;
+            position: relative;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .radio-wrapper:hover .radio {
+            border-color: var(--primary);
+        }
+
+        .radio.checked {
+            border-color: var(--primary);
+        }
+
+        .radio.checked::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 10px;
+            height: 10px;
+            background: var(--primary-gradient);
+            border-radius: 50%;
+        }
+
+        .radio-button-group {
+            display: flex;
+            gap: 8px;
+        }
+
+        .radio-button {
+            padding: 8px 16px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .radio-button:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .radio-button.checked {
+            background: var(--primary-gradient);
+            border-color: transparent;
+            color: #fff;
+        }
+
+        /* 4. Switch 开关 */
+        .switch {
+            width: 44px;
+            height: 24px;
+            background: var(--border);
+            border-radius: 12px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .switch.checked {
+            background: var(--primary-gradient);
+        }
+
+        .switch-knob {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+        }
+
+        .switch.checked .switch-knob {
+            left: 22px;
+        }
+
+        /* 5. Modal 弹窗 */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+
+        .modal {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            max-width: 480px;
+            width: 90%;
+            box-shadow: var(--shadow-lg);
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+        }
+
+        .modal-body {
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+
+        .modal-footer {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+
+        .btn {
+            padding: 10px 24px;
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            font-weight: 500;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+            color: #fff;
+        }
+
+        .btn-default {
+            background: #fff;
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+        }
+
+        .btn-default:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* 6. Progress 进度条 */
+        .progress-wrapper {
+            margin-bottom: 16px;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .progress-track {
+            height: 8px;
+            background: var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--primary-gradient);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .progress-circle {
+            width: 80px;
+            height: 80px;
+            position: relative;
+        }
+
+        .progress-circle svg {
+            transform: rotate(-90deg);
+        }
+
+        .progress-circle-bg {
+            fill: none;
+            stroke: var(--border);
+            stroke-width: 8;
+        }
+
+        .progress-circle-bar {
+            fill: none;
+            stroke: url(#gradient);
+            stroke-width: 8;
+            stroke-linecap: round;
+            stroke-dasharray: 226;
+            stroke-dashoffset: 56;
+            transition: stroke-dashoffset 0.3s ease;
+        }
+
+        .progress-circle-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        /* 7. Skeleton 骨架屏 */
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s infinite;
+            border-radius: var(--radius-md);
+        }
+
+        @keyframes skeleton-loading {
+            0% {
+                background-position: 200% 0;
+            }
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        .skeleton-text {
+            height: 16px;
+            margin-bottom: 12px;
+        }
+
+        .skeleton-title {
+            height: 24px;
+            width: 60%;
+            margin-bottom: 16px;
+        }
+
+        .skeleton-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            margin-bottom: 16px;
+        }
+
+        .skeleton-image {
+            height: 200px;
+            margin-bottom: 16px;
+        }
+
+        /* 8. Tabs 标签页 */
+        .tabs-header {
+            display: flex;
+            gap: 4px;
+            border-bottom: 2px solid var(--border);
+            margin-bottom: 24px;
+        }
+
+        .tab-item {
+            padding: 12px 24px;
+            cursor: pointer;
+            color: var(--text-secondary);
+            font-size: 14px;
+            transition: all 0.3s ease;
+            position: relative;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+        }
+
+        .tab-item:hover {
+            color: var(--primary);
+        }
+
+        .tab-item.active {
+            color: var(--primary);
+            font-weight: 600;
+            border-bottom-color: var(--primary);
+        }
+
+        .tab-content {
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* 提示说明 */
+        .tip {
+            background: rgba(51, 112, 255, 0.1);
+            border-left: 4px solid var(--primary);
+            padding: 12px 16px;
+            border-radius: 4px;
+            margin-top: 16px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .tip strong {
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 style="color: #fff; text-align: center; margin-bottom: 40px; font-size: 36px;">
+            ✨ 组件库设计稿 - P0 补全组件
+        </h1>
+
+        <!-- 1. Select 下拉选择 -->
+        <div class="section">
+            <h2 class="section-title">📋 1. Select 下拉选择</h2>
+            <div class="component-grid">
+                <div class="component-item">
+                    <div class="component-label">单选模式</div>
+                    <div class="select-wrapper">
+                        <input type="text" class="select-input" value="请选择部门" readonly>
+                    </div>
+                </div>
+                <div class="component-item">
+                    <div class="component-label">多选模式</div>
+                    <div class="select-wrapper">
+                        <input type="text" class="select-input" value="技术部，产品部" readonly>
+                    </div>
+                </div>
+                <div class="component-item">
+                    <div class="component-label">搜索模式</div>
+                    <div class="select-wrapper">
+                        <input type="text" class="select-input" placeholder="输入关键词搜索...">
+                    </div>
+                </div>
+            </div>
+            <div class="tip">
+                <strong>💡 设计说明：</strong> 边框圆角 8px，聚焦时#3370FF 光晕 +4px，下拉选项悬停显示主色背景
+            </div>
+        </div>
+
+        <!-- 2. Checkbox 复选框 -->
+        <div class="section">
+            <h2 class="section-title">☑️ 2. Checkbox 复选框</h2>
+            <div class="component-grid">
+                <div class="component-item">
+                    <div class="component-label">未选中</div>
+                    <label class="checkbox-wrapper">
+                        <div class="checkbox"></div>
+                        <span>同意协议</span>
+                    </label>
+                </div>
+                <div class="component-item">
+                    <div class="component-label">已选中</div>
+                    <label class="checkbox-wrapper">
+                        <div class="checkbox checked"></div>
+                        <span>同意协议</span>
+                    </label>
+                </div>
+                <div class="component-item">
+                    <div class="component-label">全选</div>
+                    <label class="checkbox-wrapper">
+                        <div class="checkbox checked"></div>
+                        <span>全选（3/3）</span>
+                    </label>
+                </div>
+            </div>
+            <div class="tip">
+                <strong>💡 设计说明：</strong> 18px 方形，圆角 4px，选中时蓝紫渐变背景 + 白色对勾
+            </div>
+        </div>
+
+        <!-- 3. Radio 单选框 -->
+        <div class="section">
+            <h2 class="section-title">🔘 3. Radio 单选框</h2>
+            <div class="component-grid">
+                <div class="component-item">
+                    <div class="component-label">未选中</div>
+                    <label class="radio-wrapper">
+                        <div class="radio"></div>
+                        <span>选项 A</span>
+                    </label>
+                </div>
+                <div class="component-item">
+                    <div class="component-label">已选中</div>
+                    <label class="radio-wrapper">
+                        <div class="radio checked"></div>
+                        <span>选项 B</span>
+                    </label>
+                </div>
+                <div class="component-item">
+                    <div class="component-label">按钮组</div>
+                    <div class="radio-button-group">
+                        <div class="radio-button">日</div>
+                        <div class="radio-button checked">周</div>
+                        <div class="radio-button">月</div>
+                    </div>
+                </div>
+            </div>
+            <div class="tip">
+                <strong>💡 设计说明：</strong> 18px 圆形，选中时中心显示蓝紫渐变圆点，按钮组选中时渐变背景
+            </div>
+        </div>
+
+        <!-- 4. Switch 开关 -->
+        <div class="section">
+            <h2 class="section-title">🔀 4. Switch 开关</h2>
+            <div class="component-grid">
+                <div class="component-item">
+                    <div class="component-label">关闭状态</div>
+                    <div class="switch">
+                        <div class="switch-knob"></div>
+                    </div>
+                </div>
+                <div class="component-item">
+                    <div class="component-label">开启状态</div>
+                    <div class="switch checked">
+                        <div class="switch-knob"></div>
+                    </div>
+                </div>
+                <div class="component-item">
+                    <div class="component-label">带文字</div>
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div class="switch checked">
+                            <div class="switch-knob"></div>
+                        </div>
+                        <span style="font-size: 14px; color: var(--text-secondary);">启用通知</span>
+                    </div>
+                </div>
+            </div>
+            <div class="tip">
+                <strong>💡 设计说明：</strong> 44x24px，圆角 12px，开启时蓝紫渐变背景，滑块带阴影
+            </div>
+        </div>
+
+        <!-- 5. Modal 弹窗 -->
+        <div class="section">
+            <h2 class="section-title">🪟 5. Modal 弹窗</h2>
+            <div class="component-grid">
+                <div class="component-item" style="grid-column: 1 / -1;">
+                    <div class="component-label">对话框</div>
+                    <div class="modal-overlay" style="position: relative; background: rgba(0,0,0,0.1); backdrop-filter: none;">
+                        <div class="modal">
+                            <div class="modal-header">确认删除</div>
+                            <div class="modal-body">
+                                确定要删除这条记录吗？此操作不可恢复。
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-default">取消</button>
+                                <button class="btn btn-primary">确认删除</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tip">
+                <strong>💡 设计说明：</strong> 玻璃态背景（backdrop-filter: blur(20px)），圆角 12px，滑入动画，多层蓝色阴影
+            </div>
+        </div>
+
+        <!-- 6. Progress 进度条 -->
+        <div class="section">
+            <h2 class="section-title">📊 6. Progress 进度条</h2>
+            <div class="component-grid">
+                <div class="component-item" style="grid-column: 1 / -1;">
+                    <div class="component-label">线性进度条</div>
+                    <div class="progress-wrapper">
+                        <div class="progress-label">
+                            <span>上传进度</span>
+                            <span>75%</span>
+                        </div>
+                        <div class="progress-track">
+                            <div class="progress-bar" style="width: 75%;"></div>
+                        </div>
+                    </div>
+                    <div class="progress-wrapper">
+                        <div class="progress-label">
+                            <span>处理中</span>
+                            <span>45%</span>
+                        </div>
+                        <div class="progress-track">
+                            <div class="progress-bar" style="width: 45%;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="component-item">
+                    <div class="component-label">环形进度条</div>
+                    <div class="progress-circle">
+                        <svg width="80" height="80">
+                            <defs>
+                                <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#3370FF"/>
+                                    <stop offset="100%" style="stop-color:#722ED1"/>
+                                </linearGradient>
+                            </defs>
+                            <circle class="progress-circle-bg" cx="40" cy="40" r="36"/>
+                            <circle class="progress-circle-bar" cx="40" cy="40" r="36"/>
+                        </svg>
+                        <div class="progress-circle-text">75%</div>
+                    </div>
+                </div>
+            </div>
+            <div class="tip">
+                <strong>💡 设计说明：</strong> 线性高度 8px，环形使用 SVG 描边，蓝紫渐变填充
+            </div>
+        </div>
+
+        <!-- 7. Skeleton 骨架屏 -->
+        <div class="section">
+            <h2 class="section-title">💀 7. Skeleton 骨架屏</h2>
+            <div class="component-grid">
+                <div class="component-item">
+                    <div class="component-label">列表骨架</div>
+                    <div style="display: flex; gap: 16px;">
+                        <div class="skeleton skeleton-avatar"></div>
+                        <div style="flex: 1;">
+                            <div class="skeleton skeleton-title"></div>
+                            <div class="skeleton skeleton-text"></div>
+                            <div class="skeleton skeleton-text" style="width: 80%;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="component-item">
+                    <div class="component-label">卡片骨架</div>
+                    <div class="skeleton skeleton-image"></div>
+                    <div class="skeleton skeleton-title"></div>
+                    <div class="skeleton skeleton-text"></div>
+                    <div class="skeleton skeleton-text"></div>
+                </div>
+            </div>
+            <div class="tip">
+                <strong>💡 设计说明：</strong> 灰色渐变背景，流动加载动画（1.5s 循环），圆角 8px
+            </div>
+        </div>
+
+        <!-- 8. Tabs 标签页 -->
+        <div class="section">
+            <h2 class="section-title">📑 8. Tabs 标签页</h2>
+            <div class="component-grid">
+                <div class="component-item" style="grid-column: 1 / -1;">
+                    <div class="component-label">默认样式</div>
+                    <div class="tabs-header">
+                        <div class="tab-item">概览</div>
+                        <div class="tab-item active">数据</div>
+                        <div class="tab-item">设置</div>
+                        <div class="tab-item">日志</div>
+                    </div>
+                    <div class="tab-content">
+                        这里是数据面板的内容区域，展示各种数据图表和统计信息。
+                    </div>
+                </div>
+            </div>
+            <div class="tip">
+                <strong>💡 设计说明：</strong> 选中项主色文字 + 底部主色边框，悬停时显示主色，过渡 0.3s ease
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 40px;">
+            <p style="color: rgba(255,255,255,0.8); font-size: 14px;">
+                ✨ 设计系统核心优势：统一色彩 · 流畅动效 · 玻璃态 · 响应式
+            </p>
+        </div>
+    </div>
+</body>
+</html>
