@@ -1,0 +1,154 @@
+<!-- UED 列表组件库（6 个组件） -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>UED 列表组件库</title>
+    <style>
+        :root { --primary: #3370FF; --primary-gradient: linear-gradient(135deg, #3370FF 0%, #722ED1 100%); --border: #E5E6EB; --text-primary: rgba(0,0,0,0.85); --text-secondary: rgba(0,0,0,0.45); --bg-disabled: #f5f5f5; --radius-md: 8px; --radius-lg: 12px; --green: #00B365; --yellow: #FFB300; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Microsoft YaHei', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 40px 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .section { background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); border-radius: var(--radius-lg); padding: 32px; margin-bottom: 32px; }
+        .section-title { font-size: 24px; font-weight: 600; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 2px solid var(--border); }
+        .component-item { background: #fafafa; border-radius: var(--radius-md); padding: 24px; border: 1px solid var(--border); margin-bottom: 16px; }
+        .component-label { font-size: 14px; color: var(--text-secondary); margin-bottom: 16px; }
+        .usage-guide { background: rgba(51,112,255,0.05); border-left: 4px solid var(--primary); border-radius: var(--radius-md); padding: 20px; margin-top: 24px; }
+        .usage-guide h4 { font-size: 16px; font-weight: 600; color: var(--primary); margin-bottom: 12px; }
+        .usage-guide dt { font-weight: 600; color: var(--text-primary); font-size: 14px; margin-top: 12px; }
+        .usage-guide dd { color: var(--text-secondary); font-size: 14px; line-height: 1.6; margin: 0 0 12px 0; }
+        .usage-guide ul { list-style: none; padding-left: 0; }
+        .usage-guide li { color: var(--text-secondary); font-size: 14px; line-height: 1.8; padding-left: 20px; position: relative; }
+        .usage-guide li::before { content: '•'; color: var(--primary); position: absolute; left: 0; }
+        .code-block { background: #1e1e1e; color: #d4d4d4; padding: 16px; border-radius: var(--radius-md); font-family: Consolas, monospace; font-size: 13px; margin: 16px 0; }
+        .list-item { display: flex; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border); }
+        .list-item:last-child { border-bottom: none; }
+        .avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--primary-gradient); color: white; display: flex; align-items: center; justify-content: center; margin-right: 12px; }
+        .status-tag { padding: 4px 12px; border-radius: 6px; font-size: 12px; }
+        .status-success { background: rgba(0,179,101,0.1); color: var(--green); }
+        .status-warning { background: rgba(255,179,0,0.1); color: var(--yellow); }
+        .timeline { position: relative; padding-left: 32px; }
+        .timeline::before { content: ''; position: absolute; left: 11px; top: 0; bottom: 0; width: 2px; background: var(--primary-gradient); }
+        .timeline-item { position: relative; padding-bottom: 24px; }
+        .timeline-dot { position: absolute; left: -26px; top: 0; width: 24px; height: 24px; border-radius: 50%; background: white; border: 3px solid var(--primary); }
+        .skeleton { background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size: 200% 100%; animation: skeleton 1.5s infinite; border-radius: var(--radius-md); }
+        @keyframes skeleton { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+        .skeleton-text { height: 14px; margin-bottom: 8px; }
+        .skeleton-avatar { width: 48px; height: 48px; border-radius: 50%; margin-bottom: 16px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 style="text-align: center; color: white; margin-bottom: 40px;">📋 UED 列表组件库（6 个）</h1>
+
+        <!-- Basic List -->
+        <div class="section">
+            <h2 class="section-title">📝 1. Basic List 基础列表</h2>
+            <div class="component-item">
+                <div class="list-item"><div class="avatar">A</div><div><div style="font-weight: 600;">项目 A</div><div style="color: var(--text-secondary); font-size: 12px;">描述信息</div></div></div>
+                <div class="list-item"><div class="avatar">B</div><div><div style="font-weight: 600;">项目 B</div><div style="color: var(--text-secondary); font-size: 12px;">描述信息</div></div></div>
+            </div>
+            <div class="usage-guide">
+                <h4>📖 使用说明</h4>
+                <dl>
+                    <dt>使用场景</dt><dd>简单列表、条目展示</dd>
+                    <dt>尺寸规范</dt><dd><ul><li>项高度：自适应</li><li>头像：40px</li><li>间距：12px</li></ul></dd>
+                    <dt>代码示例</dt><dd><div class="code-block">&lt;List dataSource={data} renderItem={item => &lt;List.Item&gt;{item.name}&lt;/List.Item&gt;} /&gt;</div></dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- Status List -->
+        <div class="section">
+            <h2 class="section-title">🏷️ 2. Status List 状态列表</h2>
+            <div class="component-item">
+                <div class="list-item"><span>任务 1</span><span class="status-tag status-success" style="margin-left: auto;">已完成</span></div>
+                <div class="list-item"><span>任务 2</span><span class="status-tag status-warning" style="margin-left: auto;">进行中</span></div>
+            </div>
+            <div class="usage-guide">
+                <h4>📖 使用说明</h4>
+                <dl>
+                    <dt>使用场景</dt><dd>带状态标签的列表</dd>
+                    <dt>状态颜色</dt><dd><ul><li>成功：#00B365</li><li>警告：#FFB300</li><li>错误：#FF4D4F</li></ul></dd>
+                    <dt>代码示例</dt><dd><div class="code-block">&lt;StatusList items={items} /&gt;</div></dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- Card List -->
+        <div class="section">
+            <h2 class="section-title">📦 3. Card List 卡片列表</h2>
+            <div class="component-item">
+                <div style="background: white; padding: 16px; border-radius: var(--radius-md); margin-bottom: 12px;">
+                    <div style="font-weight: 600; margin-bottom: 8px;">卡片标题</div>
+                    <div style="color: var(--text-secondary); font-size: 14px;">卡片内容描述</div>
+                </div>
+            </div>
+            <div class="usage-guide">
+                <h4>📖 使用说明</h4>
+                <dl>
+                    <dt>使用场景</dt><dd>卡片式列表、内容展示</dd>
+                    <dt>尺寸规范</dt><dd><ul><li>内边距：16px</li><li>圆角：8px</li><li>间距：12px</li></ul></dd>
+                    <dt>代码示例</dt><dd><div class="code-block">&lt;CardList data={data} /&gt;</div></dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- Timeline -->
+        <div class="section">
+            <h2 class="section-title">📅 4. Timeline 时间线</h2>
+            <div class="timeline">
+                <div class="timeline-item"><div class="timeline-dot"></div><div><div style="font-weight: 600;">事件 1</div><div style="color: var(--text-secondary);">2026-03-01</div></div></div>
+                <div class="timeline-item"><div class="timeline-dot"></div><div><div style="font-weight: 600;">事件 2</div><div style="color: var(--text-secondary);">2026-03-05</div></div></div>
+            </div>
+            <div class="usage-guide">
+                <h4>📖 使用说明</h4>
+                <dl>
+                    <dt>使用场景</dt><dd>时间轴、进度跟踪</dd>
+                    <dt>尺寸规范</dt><dd><ul><li>圆点：24px</li><li>线宽：2px</li><li>间距：24px</li></ul></dd>
+                    <dt>代码示例</dt><dd><div class="code-block">&lt;Timeline items={events} /&gt;</div></dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- Card Grid -->
+        <div class="section">
+            <h2 class="section-title">🔲 5. Card Grid 卡片网格</h2>
+            <div class="component-item">
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
+                    <div style="background: white; padding: 16px; border-radius: var(--radius-md); text-align: center;">卡片 1</div>
+                    <div style="background: white; padding: 16px; border-radius: var(--radius-md); text-align: center;">卡片 2</div>
+                    <div style="background: white; padding: 16px; border-radius: var(--radius-md); text-align: center;">卡片 3</div>
+                </div>
+            </div>
+            <div class="usage-guide">
+                <h4>📖 使用说明</h4>
+                <dl>
+                    <dt>使用场景</dt><dd>网格布局、卡片展示</dd>
+                    <dt>尺寸规范</dt><dd><ul><li>列数：自适应</li><li>间距：16px</li></ul></dd>
+                    <dt>代码示例</dt><dd><div class="code-block">&lt;CardGrid data={data} columns={3} /&gt;</div></dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- Loading -->
+        <div class="section">
+            <h2 class="section-title">⏳ 6. Loading 加载状态</h2>
+            <div class="component-item">
+                <div style="display: flex; gap: 16px; margin-bottom: 16px;">
+                    <div class="skeleton skeleton-avatar"></div>
+                    <div style="flex: 1;"><div class="skeleton skeleton-text" style="width: 60%;"></div><div class="skeleton skeleton-text"></div></div>
+                </div>
+            </div>
+            <div class="usage-guide">
+                <h4>📖 使用说明</h4>
+                <dl>
+                    <dt>使用场景</dt><dd>页面加载、数据刷新</dd>
+                    <dt>尺寸规范</dt><dd><ul><li>头像：48px</li><li>文本高度：14px</li><li>动画：1.5s 循环</li></ul></dd>
+                    <dt>代码示例</dt><dd><div class="code-block">&lt;Loading type="skeleton" /&gt;<br>&lt;Loading type="spinner" /&gt;</div></dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

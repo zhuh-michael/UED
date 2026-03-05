@@ -1,0 +1,159 @@
+<!-- UED 导航组件库（7 个组件） -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>UED 导航组件库</title>
+    <style>
+        :root { --primary: #3370FF; --primary-gradient: linear-gradient(135deg, #3370FF 0%, #722ED1 100%); --border: #E5E6EB; --text-primary: rgba(0,0,0,0.85); --text-secondary: rgba(0,0,0,0.45); --bg-disabled: #f5f5f5; --radius-md: 8px; --radius-lg: 12px; --green: #00B365; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Microsoft YaHei', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 40px 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .section { background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); border-radius: var(--radius-lg); padding: 32px; margin-bottom: 32px; }
+        .section-title { font-size: 24px; font-weight: 600; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 2px solid var(--border); }
+        .component-item { background: #fafafa; border-radius: var(--radius-md); padding: 24px; border: 1px solid var(--border); margin-bottom: 16px; }
+        .component-label { font-size: 14px; color: var(--text-secondary); margin-bottom: 16px; }
+        .usage-guide { background: rgba(51,112,255,0.05); border-left: 4px solid var(--primary); border-radius: var(--radius-md); padding: 20px; margin-top: 24px; }
+        .usage-guide h4 { font-size: 16px; font-weight: 600; color: var(--primary); margin-bottom: 12px; }
+        .usage-guide dt { font-weight: 600; color: var(--text-primary); font-size: 14px; margin-top: 12px; }
+        .usage-guide dd { color: var(--text-secondary); font-size: 14px; line-height: 1.6; margin: 0 0 12px 0; }
+        .usage-guide ul { list-style: none; padding-left: 0; }
+        .usage-guide li { color: var(--text-secondary); font-size: 14px; line-height: 1.8; padding-left: 20px; position: relative; }
+        .usage-guide li::before { content: '•'; color: var(--primary); position: absolute; left: 0; }
+        .code-block { background: #1e1e1e; color: #d4d4d4; padding: 16px; border-radius: var(--radius-md); font-family: Consolas, monospace; font-size: 13px; margin: 16px 0; }
+        .steps { display: flex; justify-content: space-between; position: relative; padding: 40px 20px 20px; }
+        .steps::before { content: ''; position: absolute; top: 20px; left: 60px; right: 60px; height: 2px; background: var(--border); z-index: 0; }
+        .step-item { position: relative; text-align: center; flex: 1; z-index: 1; }
+        .step-icon { width: 40px; height: 40px; border-radius: 50%; background: white; border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; font-weight: 600; }
+        .step-item.completed .step-icon { background: var(--green); border-color: var(--green); color: white; }
+        .step-item.active .step-icon { background: var(--primary-gradient); border-color: transparent; color: white; }
+        .calendar { border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; }
+        .calendar-header { display: flex; justify-content: space-between; padding: 12px 16px; border-bottom: 1px solid var(--border); font-weight: 600; }
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; background: var(--border); }
+        .calendar-day { background: white; padding: 12px; text-align: center; font-size: 14px; }
+        .calendar-day.today { background: var(--primary-gradient); color: white; font-weight: 600; }
+        .descriptions-row { display: flex; padding: 12px 0; border-bottom: 1px solid var(--border); }
+        .descriptions-label { width: 120px; font-weight: 600; color: var(--text-secondary); }
+        .descriptions-value { flex: 1; color: var(--text-primary); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 style="text-align: center; color: white; margin-bottom: 40px;">🧭 UED 导航组件库（7 个）</h1>
+
+        <!-- Steps -->
+        <div class="section">
+            <h2 class="section-title">👣 1. Steps 步骤条</h2>
+            <div class="component-item">
+                <div class="steps">
+                    <div class="step-item completed"><div class="step-icon">✓</div><div>提交申请</div></div>
+                    <div class="step-item completed"><div class="step-icon">✓</div><div>审核中</div></div>
+                    <div class="step-item active"><div class="step-icon">3</div><div>审批</div></div>
+                    <div class="step-item"><div class="step-icon">4</div><div>完成</div></div>
+                </div>
+            </div>
+            <div class="usage-guide">
+                <h4>📖 使用说明</h4>
+                <dl>
+                    <dt>使用场景</dt><dd>流程引导、步骤展示</dd>
+                    <dt>尺寸规范</dt><dd><ul><li>圆点：40px</li><li>线高：2px</li><li>间距：自适应</li></ul></dd>
+                    <dt>代码示例</dt><dd><div class="code-block">&lt;Steps current={2} items={steps} /&gt;</div></dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- Dropdown -->
+        <div class="section">
+            <h2 class="section-title">📋 2. Dropdown 下拉菜单</h2>
+            <div class="component-item">
+                <button style="padding: 8px 16px; background: var(--primary-gradient); color: white; border: none; border-radius: var(--radius-md);">更多操作 ▼</button>
+            </div>
+            <div class="usage-guide">
+                <h4>📖 使用说明</h4>
+                <dl>
+                    <dt>使用场景</dt><dd>下拉操作、菜单</dd>
+                    <dt>尺寸规范</dt><dd><ul><li>最小宽度：120px</li><li>项高度：36px</li></ul></dd>
+                    <dt>代码示例</dt><dd><div class="code-block">&lt;Dropdown menu={menuItems}&gt;&lt;Button&gt;更多&lt;/Button&gt;&lt;/Dropdown&gt;</div></dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- Menu -->
+        <div class="section">
+            <h2 class="section-title">📑 3. Menu 导航菜单</h2>
+            <div class="component-item">
+                <div style="background: white; border-radius: var(--radius-md); overflow: hidden;">
+                    <div style="padding: 12px 20px; background: rgba(51,112,255,0.1); color: var(--primary); font-weight: 600;">📊 仪表盘</div>
+                    <div style="padding: 12px 20px; color: var(--text-primary);">📁 部门管理</div>
+                    <div style="padding: 12px 20px; color: var(--text-primary);">👥 员工管理</div>
+                </div>
+            </div>
+            <div class="usage-guide">
+                <h4>📖 使用说明</h4>
+                <dl>
+                    <dt>使用场景</dt><dd>导航菜单、功能入口</dd>
+                    <dt>尺寸规范</dt><dd><ul><li>项高度：44px</li><li>内边距：12px 20px</li></ul></dd>
+                    <dt>代码示例</dt><dd><div class="code-block">&lt;Menu items={menuItems} selectedKeys={[current]} /&gt;</div></dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- Carousel -->
+        <div class="section">
+            <h2 class="section-title">🎠 4. Carousel 走马灯</h2>
+            <div class="component-item">
+                <div style="height: 200px; background: var(--primary-gradient); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; color: white; font-size: 24px;">轮播图</div>
+            </div>
+            <div class="usage-guide">
+                <h4>📖 使用说明</h4>
+                <dl>
+                    <dt>使用场景</dt><dd>轮播展示、活动宣传</dd>
+                    <dt>尺寸规范</dt><dd><ul><li>高度：200px（可配置）</li><li>圆角：12px</li></ul></dd>
+                    <dt>代码示例</dt><dd><div class="code-block">&lt;Carousel autoplay interval={5000}&gt;&lt;Carousel.Item /&gt;&lt;/Carousel&gt;</div></dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- Calendar -->
+        <div class="section">
+            <h2 class="section-title">📆 5. Calendar 日历</h2>
+            <div class="component-item">
+                <div class="calendar">
+                    <div class="calendar-header"><span>◀</span><span>2026 年 3 月</span><span>▶</span></div>
+                    <div class="calendar-grid">
+                        <div class="calendar-day" style="color: #ccc;">1</div><div class="calendar-day" style="color: #ccc;">2</div>
+                        <div class="calendar-day">3</div><div class="calendar-day today">4</div><div class="calendar-day">5</div>
+                        <div class="calendar-day">6</div><div class="calendar-day">7</div>
+                    </div>
+                </div>
+            </div>
+            <div class="usage-guide">
+                <h4>📖 使用说明</h4>
+                <dl>
+                    <dt>使用场景</dt><dd>日历展示、日期选择</dd>
+                    <dt>尺寸规范</dt><dd><ul><li>单元格：40px × 40px</li><li>圆角：8px</li></ul></dd>
+                    <dt>代码示例</dt><dd><div class="code-block">&lt;Calendar value={date} onChange={handleDate} /&gt;</div></dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- Descriptions -->
+        <div class="section">
+            <h2 class="section-title">📝 6. Descriptions 描述列表</h2>
+            <div class="component-item">
+                <div class="descriptions-row"><div class="descriptions-label">用户名</div><div class="descriptions-value">青鸾</div></div>
+                <div class="descriptions-row"><div class="descriptions-label">角色</div><div class="descriptions-value">产品经理</div></div>
+                <div class="descriptions-row"><div class="descriptions-label">邮箱</div><div class="descriptions-value">qingluan@example.com</div></div>
+            </div>
+            <div class="usage-guide">
+                <h4>📖 使用说明</h4>
+                <dl>
+                    <dt>使用场景</dt><dd>详情展示、键值对</dd>
+                    <dt>尺寸规范</dt><dd><ul><li>标签宽度：120px</li><li>行高：40px</li></ul></dd>
+                    <dt>代码示例</dt><dd><div class="code-block">&lt;Descriptions items={descItems} column={2} /&gt;</div></dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

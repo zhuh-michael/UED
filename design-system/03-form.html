@@ -1,0 +1,219 @@
+<!-- UED 表单组件库（10 个组件） -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>UED 表单组件库</title>
+    <style>
+        :root { --primary: #3370FF; --primary-gradient: linear-gradient(135deg, #3370FF 0%, #722ED1 100%); --border: #E5E6EB; --text-primary: rgba(0,0,0,0.85); --text-secondary: rgba(0,0,0,0.45); --bg-disabled: #f5f5f5; --radius-md: 8px; --radius-lg: 12px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 40px 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .section { background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); border-radius: var(--radius-lg); padding: 32px; margin-bottom: 32px; box-shadow: 0 8px 32px rgba(0,0,0,0.1); }
+        .section-title { font-size: 24px; font-weight: 600; color: var(--text-primary); margin-bottom: 24px; padding-bottom: 16px; border-bottom: 2px solid var(--border); }
+        .component-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-bottom: 24px; }
+        .component-item { background: #fafafa; border-radius: var(--radius-md); padding: 24px; border: 1px solid var(--border); }
+        .component-label { font-size: 14px; color: var(--text-secondary); margin-bottom: 16px; }
+        .usage-guide { background: rgba(51,112,255,0.05); border-left: 4px solid var(--primary); border-radius: var(--radius-md); padding: 20px; margin-top: 24px; }
+        .usage-guide h4 { font-size: 16px; font-weight: 600; color: var(--primary); margin-bottom: 12px; }
+        .usage-guide dt { font-weight: 600; color: var(--text-primary); font-size: 14px; margin-top: 12px; margin-bottom: 6px; }
+        .usage-guide dd { color: var(--text-secondary); font-size: 14px; line-height: 1.6; margin: 0 0 12px 0; }
+        .usage-guide ul { list-style: none; padding-left: 0; }
+        .usage-guide li { color: var(--text-secondary); font-size: 14px; line-height: 1.8; padding-left: 20px; position: relative; }
+        .usage-guide li::before { content: '•'; color: var(--primary); font-weight: bold; position: absolute; left: 0; }
+        .code-block { background: #1e1e1e; color: #d4d4d4; padding: 16px; border-radius: var(--radius-md); font-family: 'Consolas', monospace; font-size: 13px; line-height: 1.6; overflow-x: auto; margin: 16px 0; }
+        .code-block .keyword { color: #569cd6; }
+        .code-block .string { color: #ce9178; }
+        .code-block .comment { color: #6a9955; }
+        .input { width: 100%; height: 40px; padding: 0 12px; font-size: 14px; border: 1px solid var(--border); border-radius: var(--radius-md); outline: none; }
+        .checkbox-wrapper, .radio-wrapper { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+        .checkbox, .radio { width: 18px; height: 18px; accent-color: var(--primary); }
+        .switch { position: relative; width: 44px; height: 22px; background: var(--border); border-radius: 11px; cursor: pointer; transition: 0.3s; }
+        .switch.active { background: var(--primary-gradient); }
+        .switch::after { content: ''; position: absolute; top: 2px; left: 2px; width: 18px; height: 18px; background: white; border-radius: 50%; transition: 0.3s; }
+        .switch.active::after { left: 24px; }
+        .slider-track { width: 100%; height: 6px; background: var(--border); border-radius: 3px; position: relative; }
+        .slider-fill { height: 100%; background: var(--primary-gradient); border-radius: 3px; width: 60%; }
+        .slider-handle { width: 20px; height: 20px; background: white; border: 2px solid var(--primary); border-radius: 50%; position: absolute; top: 50%; left: 60%; transform: translate(-50%, -50%); box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+        .rate-stars { color: #FFB300; font-size: 24px; }
+        .rate-stars .empty { color: var(--border); }
+        .tag { display: inline-block; padding: 4px 12px; border-radius: 6px; font-size: 12px; margin-right: 8px; background: var(--primary-gradient); color: white; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 style="text-align: center; color: white; margin-bottom: 40px;">📝 UED 表单组件库（10 个）</h1>
+
+        <!-- Select -->
+        <div class="section">
+            <h2 class="section-title">📋 1. Select 下拉选择</h2>
+            <div class="component-item">
+                <select class="input">
+                    <option>请选择</option>
+                    <option>选项 1</option>
+                    <option>选项 2</option>
+                </select>
+            </div>
+            <div class="usage-guide">
+                <h4>📖 使用说明</h4>
+                <dl>
+                    <dt>使用场景</dt><dd>单选/多选下拉</dd>
+                    <dt>尺寸规范</dt><dd><ul><li>高度：36px/40px</li><li>圆角：8px</li></ul></dd>
+                    <dt>代码示例</dt><dd><div class="code-block">&lt;Select options={options} value={value} /&gt;</div></dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- Checkbox -->
+        <div class="section">
+            <h2 class="section-title">☑️ 2. Checkbox 复选框</h2>
+            <div class="component-item">
+                <div class="checkbox-wrapper"><input type="checkbox" class="checkbox" checked> <span>选项 1</span></div>
+                <div class="checkbox-wrapper"><input type="checkbox" class="checkbox"> <span>选项 2</span></div>
+            </div>
+            <div class="usage-guide">
+                <h4>📖 使用说明</h4>
+                <dl>
+                    <dt>使用场景</dt><dd>多选、全选</dd>
+                    <dt>尺寸规范</dt><dd><ul><li>尺寸：18px × 18px</li><li>间距：8px</li></ul></dd>
+                    <dt>代码示例</dt><dd><div class="code-block">&lt;Checkbox checked={checked} onChange={handleChange} /&gt;</div></dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- Radio -->
+        <div class="section">
+            <h2 class="section-title">🔘 3. Radio 单选框</h2>
+            <div class="component-item">
+                <div class="radio-wrapper"><input type="radio" name="r" class="radio" checked> <span>选项 1</span></div>
+                <div class="radio-wrapper"><input type="radio" name="r" class="radio"> <span>选项 2</span></div>
+            </div>
+            <div class="usage-guide">
+                <h4>📖 使用说明</h4>
+                <dl>
+                    <dt>使用场景</dt><dd>单选、互斥选择</dd>
+                    <dt>尺寸规范</dt><dd><ul><li>尺寸：18px × 18px</li><li>间距：8px</li></ul></dd>
+                    <dt>代码示例</dt><dd><div class="code-block">&lt;RadioGroup value={value} options={options} /&gt;</div></dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- Switch -->
+        <div class="section">
+            <h2 class="section-title">🔀 4. Switch 开关</h2>
+            <div class="component-item">
+                <div class="switch active" style="margin-bottom: 16px;"></div>
+                <div class="switch"></div>
+            </div>
+            <div class="usage-guide">
+                <h4>📖 使用说明</h4>
+                <dl>
+                    <dt>使用场景</dt><dd>布尔切换、启用/禁用</dd>
+                    <dt>尺寸规范</dt><dd><ul><li>尺寸：44px × 22px</li><li>圆角：11px</li></ul></dd>
+                    <dt>代码示例</dt><dd><div class="code-block">&lt;Switch checked={checked} onChange={handleChange} /&gt;</div></dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- DatePicker -->
+        <div class="section">
+            <h2 class="section-title">📅 5. DatePicker 日期选择</h2>
+            <div class="component-item">
+                <input type="text" class="input" value="2026-03-05" readonly>
+            </div>
+            <div class="usage-guide">
+                <h4>📖 使用说明</h4>
+                <dl>
+                    <dt>使用场景</dt><dd>日期选择、日期范围</dd>
+                    <dt>尺寸规范</dt><dd><ul><li>高度：36px</li><li>面板宽度：280px</li></ul></dd>
+                    <dt>代码示例</dt><dd><div class="code-block">&lt;DatePicker value={date} onChange={handleDate} /&gt;</div></dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- Cascader -->
+        <div class="section">
+            <h2 class="section-title">🔗 6. Cascader 级联选择</h2>
+            <div class="component-item">
+                <input type="text" class="input" value="浙江省 / 杭州市 / 西湖区" readonly>
+            </div>
+            <div class="usage-guide">
+                <h4>📖 使用说明</h4>
+                <dl>
+                    <dt>使用场景</dt><dd>多级联动选择</dd>
+                    <dt>尺寸规范</dt><dd><ul><li>高度：36px</li><li>面板：多列联动</li></ul></dd>
+                    <dt>代码示例</dt><dd><div class="code-block">&lt;Cascader options={options} value={value} /&gt;</div></dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- Slider -->
+        <div class="section">
+            <h2 class="section-title">📊 7. Slider 滑块</h2>
+            <div class="component-item">
+                <div class="slider-track"><div class="slider-fill"></div><div class="slider-handle"></div></div>
+            </div>
+            <div class="usage-guide">
+                <h4>📖 使用说明</h4>
+                <dl>
+                    <dt>使用场景</dt><dd>范围选择、数值调节</dd>
+                    <dt>尺寸规范</dt><dd><ul><li>轨道高度：6px</li><li>滑块：20px 圆形</li></ul></dd>
+                    <dt>代码示例</dt><dd><div class="code-block">&lt;Slider value={value} onChange={setValue} /&gt;</div></dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- Rate -->
+        <div class="section">
+            <h2 class="section-title">⭐ 8. Rate 评分</h2>
+            <div class="component-item">
+                <div class="rate-stars">★★★★<span class="empty">★</span></div>
+            </div>
+            <div class="usage-guide">
+                <h4>📖 使用说明</h4>
+                <dl>
+                    <dt>使用场景</dt><dd>评分、评价</dd>
+                    <dt>尺寸规范</dt><dd><ul><li>星星大小：24px</li><li>间距：4px</li></ul></dd>
+                    <dt>代码示例</dt><dd><div class="code-block">&lt;Rate value={4} onChange={setRating} /&gt;</div></dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- Rich Text Editor -->
+        <div class="section">
+            <h2 class="section-title">📝 9. Rich Text Editor 富文本编辑器</h2>
+            <div class="component-item">
+                <div style="border: 1px solid var(--border); border-radius: var(--radius-md); padding: 12px; min-height: 200px;">
+                    <div style="color: var(--text-secondary);">工具栏 + 编辑区</div>
+                </div>
+            </div>
+            <div class="usage-guide">
+                <h4>📖 使用说明</h4>
+                <dl>
+                    <dt>使用场景</dt><dd>富文本编辑、内容创作</dd>
+                    <dt>尺寸规范</dt><dd><ul><li>最小高度：200px</li><li>工具栏高度：40px</li></ul></dd>
+                    <dt>代码示例</dt><dd><div class="code-block">&lt;RichTextEditor value={content} onChange={setContent} /&gt;</div></dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- File Upload -->
+        <div class="section">
+            <h2 class="section-title">📎 10. File Upload 文件上传</h2>
+            <div class="component-item">
+                <div style="border: 2px dashed var(--border); border-radius: var(--radius-md); padding: 32px; text-align: center; color: var(--text-secondary);">
+                    点击或拖拽文件到此处上传
+                </div>
+            </div>
+            <div class="usage-guide">
+                <h4>📖 使用说明</h4>
+                <dl>
+                    <dt>使用场景</dt><dd>文件上传、图片上传</dd>
+                    <dt>尺寸规范</dt><dd><ul><li>拖拽区：自适应</li><li>圆角：8px</li></ul></dd>
+                    <dt>代码示例</dt><dd><div class="code-block">&lt;Upload accept="image/*" onChange={handleUpload} /&gt;</div></dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

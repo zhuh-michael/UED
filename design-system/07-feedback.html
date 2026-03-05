@@ -1,0 +1,206 @@
+<!-- UED 反馈组件库（9 个组件） -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>UED 反馈组件库</title>
+    <style>
+        :root { --primary: #3370FF; --primary-gradient: linear-gradient(135deg, #3370FF 0%, #722ED1 100%); --border: #E5E6EB; --text-primary: rgba(0,0,0,0.85); --text-secondary: rgba(0,0,0,0.45); --bg-disabled: #f5f5f5; --radius-md: 8px; --radius-lg: 12px; --green: #00B365; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Microsoft YaHei', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 40px 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .section { background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); border-radius: var(--radius-lg); padding: 32px; margin-bottom: 32px; }
+        .section-title { font-size: 24px; font-weight: 600; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 2px solid var(--border); }
+        .component-item { background: #fafafa; border-radius: var(--radius-md); padding: 24px; border: 1px solid var(--border); margin-bottom: 16px; }
+        .component-label { font-size: 14px; color: var(--text-secondary); margin-bottom: 16px; }
+        .usage-guide { background: rgba(51,112,255,0.05); border-left: 4px solid var(--primary); border-radius: var(--radius-md); padding: 20px; margin-top: 24px; }
+        .usage-guide h4 { font-size: 16px; font-weight: 600; color: var(--primary); margin-bottom: 12px; }
+        .usage-guide dt { font-weight: 600; color: var(--text-primary); font-size: 14px; margin-top: 12px; }
+        .usage-guide dd { color: var(--text-secondary); font-size: 14px; line-height: 1.6; margin: 0 0 12px 0; }
+        .usage-guide ul { list-style: none; padding-left: 0; }
+        .usage-guide li { color: var(--text-secondary); font-size: 14px; line-height: 1.8; padding-left: 20px; position: relative; }
+        .usage-guide li::before { content: '•'; color: var(--primary); position: absolute; left: 0; }
+        .code-block { background: #1e1e1e; color: #d4d4d4; padding: 16px; border-radius: var(--radius-md); font-family: Consolas, monospace; font-size: 13px; margin: 16px 0; }
+        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.45); display: flex; align-items: center; justify-content: center; border-radius: var(--radius-lg); }
+        .modal { background: white; padding: 32px; border-radius: var(--radius-lg); min-width: 400px; }
+        .progress-track { width: 100%; height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+        .progress-fill { height: 100%; background: var(--primary-gradient); width: 60%; border-radius: 4px; }
+        .skeleton { background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size: 200% 100%; animation: skeleton 1.5s infinite; border-radius: var(--radius-md); }
+        @keyframes skeleton { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+        .tabs { display: flex; gap: 4px; border-bottom: 2px solid var(--border); margin-bottom: 24px; }
+        .tab-item { padding: 12px 24px; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; }
+        .tab-item.active { color: var(--primary); border-bottom-color: var(--primary); font-weight: 600; }
+        .tooltip { display: inline-block; background: rgba(0,0,0,0.75); color: white; padding: 8px 12px; border-radius: 6px; font-size: 12px; position: relative; }
+        .tooltip::after { content: ''; position: absolute; bottom: -4px; left: 50%; transform: translateX(-50%); border-left: 4px solid transparent; border-right: 4px solid transparent; border-top: 4px solid rgba(0,0,0,0.75); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 style="text-align: center; color: white; margin-bottom: 40px;">💬 UED 反馈组件库（9 个）</h1>
+
+        <!-- Modal -->
+        <div class="section">
+            <h2 class="section-title">🪟 1. Modal 弹窗</h2>
+            <div class="component-item">
+                <div class="modal-overlay" style="position: relative; height: 200px;">
+                    <div class="modal">
+                        <div style="font-size: 18px; font-weight: 600; margin-bottom: 16px;">弹窗标题</div>
+                        <div style="color: var(--text-secondary); margin-bottom: 24px;">弹窗内容区域</div>
+                        <div style="text-align: right;">
+                            <button style="padding: 8px 24px; margin-right: 12px; border: 1px solid var(--border); border-radius: var(--radius-md); background: white;">取消</button>
+                            <button style="padding: 8px 24px; background: var(--primary-gradient); color: white; border: none; border-radius: var(--radius-md);">确定</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="usage-guide">
+                <h4>📖 使用说明</h4>
+                <dl>
+                    <dt>使用场景</dt><dd>确认对话框、表单弹窗</dd>
+                    <dt>尺寸规范</dt><dd><ul><li>最小宽度：400px</li><li>内边距：32px</li><li>圆角：12px</li></ul></dd>
+                    <dt>代码示例</dt><dd><div class="code-block">&lt;Modal title="标题" onOk={handleOk} /&gt;</div></dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- Progress -->
+        <div class="section">
+            <h2 class="section-title">📊 2. Progress 进度条</h2>
+            <div class="component-item">
+                <div class="progress-track"><div class="progress-fill"></div></div>
+            </div>
+            <div class="usage-guide">
+                <h4>📖 使用说明</h4>
+                <dl>
+                    <dt>使用场景</dt><dd>加载进度、完成度</dd>
+                    <dt>尺寸规范</dt><dd><ul><li>高度：8px</li><li>圆角：4px</li></ul></dd>
+                    <dt>代码示例</dt><dd><div class="code-block">&lt;Progress percent={60} /&gt;</div></dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- Skeleton -->
+        <div class="section">
+            <h2 class="section-title">💀 3. Skeleton 骨架屏</h2>
+            <div class="component-item">
+                <div class="skeleton" style="width: 48px; height: 48px; border-radius: 50%; margin-bottom: 16px;"></div>
+                <div class="skeleton" style="height: 20px; width: 60%; margin-bottom: 12px;"></div>
+                <div class="skeleton" style="height: 14px;"></div>
+            </div>
+            <div class="usage-guide">
+                <h4>📖 使用说明</h4>
+                <dl>
+                    <dt>使用场景</dt><dd>加载占位、数据刷新</dd>
+                    <dt>尺寸规范</dt><dd><ul><li>头像：48px</li><li>标题：20px</li><li>文本：14px</li></ul></dd>
+                    <dt>代码示例</dt><dd><div class="code-block">&lt;Skeleton avatar active /&gt;</div></dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="section">
+            <h2 class="section-title">📑 4. Tabs 标签页</h2>
+            <div class="component-item">
+                <div class="tabs">
+                    <div class="tab-item">概览</div>
+                    <div class="tab-item active">数据</div>
+                    <div class="tab-item">设置</div>
+                </div>
+            </div>
+            <div class="usage-guide">
+                <h4>📖 使用说明</h4>
+                <dl>
+                    <dt>使用场景</dt><dd>标签切换、内容分组</dd>
+                    <dt>尺寸规范</dt><dd><ul><li>高度：44px</li><li>间距：4px</li></ul></dd>
+                    <dt>代码示例</dt><dd><div class="code-block">&lt;Tabs items={tabs} activeKey={active} /&gt;</div></dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- Tooltip -->
+        <div class="section">
+            <h2 class="section-title">💬 5. Tooltip 文字提示</h2>
+            <div class="component-item">
+                <span class="tooltip">悬停提示</span>
+            </div>
+            <div class="usage-guide">
+                <h4>📖 使用说明</h4>
+                <dl>
+                    <dt>使用场景</dt><dd>文字提示、说明</dd>
+                    <dt>尺寸规范</dt><dd><ul><li>内边距：8px 12px</li><li>圆角：6px</li></ul></dd>
+                    <dt>代码示例</dt><dd><div class="code-block">&lt;Tooltip title="提示内容"&gt;元素&lt;/Tooltip&gt;</div></dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- Message -->
+        <div class="section">
+            <h2 class="section-title">🔔 6. Message 全局提示</h2>
+            <div class="component-item" style="background: rgba(0,179,101,0.1); border-left: 4px solid var(--green); padding: 12px 16px;">
+                <span style="color: var(--green);">✓</span> 操作成功
+            </div>
+            <div class="usage-guide">
+                <h4>📖 使用说明</h4>
+                <dl>
+                    <dt>使用场景</dt><dd>操作反馈、全局消息</dd>
+                    <dt>尺寸规范</dt><dd><ul><li>高度：40px</li><li>圆角：8px</li></ul></dd>
+                    <dt>代码示例</dt><dd><div class="code-block">&lt;Message.success('操作成功') /&gt;</div></dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- Result -->
+        <div class="section">
+            <h2 class="section-title">✅ 7. Result 结果页</h2>
+            <div class="component-item" style="text-align: center; padding: 48px;">
+                <div style="font-size: 64px; margin-bottom: 16px;">✅</div>
+                <div style="font-size: 20px; font-weight: 600; margin-bottom: 8px;">操作成功</div>
+                <div style="color: var(--text-secondary);">请等待系统处理完成</div>
+            </div>
+            <div class="usage-guide">
+                <h4>📖 使用说明</h4>
+                <dl>
+                    <dt>使用场景</dt><dd>操作结果、状态页</dd>
+                    <dt>尺寸规范</dt><dd><ul><li>图标：64px</li><li>标题：20px</li></ul></dd>
+                    <dt>代码示例</dt><dd><div class="code-block">&lt;Result status="success" title="成功" /&gt;</div></dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- Drawer -->
+        <div class="section">
+            <h2 class="section-title">🗄️ 8. Drawer 抽屉</h2>
+            <div class="component-item">
+                <div style="background: white; border-left: 1px solid var(--border); padding: 24px; height: 200px;">
+                    <div style="font-size: 18px; font-weight: 600; margin-bottom: 16px;">抽屉标题</div>
+                    <div style="color: var(--text-secondary);">抽屉内容区域</div>
+                </div>
+            </div>
+            <div class="usage-guide">
+                <h4>📖 使用说明</h4>
+                <dl>
+                    <dt>使用场景</dt><dd>侧边抽屉、详情展示</dd>
+                    <dt>尺寸规范</dt><dd><ul><li>宽度：400px（默认）</li><li>内边距：24px</li></ul></dd>
+                    <dt>代码示例</dt><dd><div class="code-block">&lt;Drawer title="标题" visible={visible} /&gt;</div></dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- Popover -->
+        <div class="section">
+            <h2 class="section-title">🎈 9. Popover 气泡卡片</h2>
+            <div class="component-item">
+                <button style="padding: 8px 16px; background: var(--primary-gradient); color: white; border: none; border-radius: var(--radius-md);">悬停显示</button>
+            </div>
+            <div class="usage-guide">
+                <h4>📖 使用说明</h4>
+                <dl>
+                    <dt>使用场景</dt><dd>气泡卡片、复杂提示</dd>
+                    <dt>尺寸规范</dt><dd><ul><li>内边距：12px</li><li>圆角：8px</li></ul></dd>
+                    <dt>代码示例</dt><dd><div class="code-block">&lt;Popover content={content}&gt;元素&lt;/Popover&gt;</div></dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,178 @@
+<!-- UED 展示组件库（8 个组件） -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>UED 展示组件库</title>
+    <style>
+        :root { --primary: #3370FF; --primary-gradient: linear-gradient(135deg, #3370FF 0%, #722ED1 100%); --border: #E5E6EB; --text-primary: rgba(0,0,0,0.85); --text-secondary: rgba(0,0,0,0.45); --radius-md: 8px; --radius-lg: 12px; --green: #00B365; --red: #FF4D4F; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Microsoft YaHei', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 40px 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .section { background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); border-radius: var(--radius-lg); padding: 32px; margin-bottom: 32px; }
+        .section-title { font-size: 24px; font-weight: 600; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 2px solid var(--border); }
+        .component-item { background: #fafafa; border-radius: var(--radius-md); padding: 24px; border: 1px solid var(--border); margin-bottom: 16px; }
+        .component-label { font-size: 14px; color: var(--text-secondary); margin-bottom: 16px; }
+        .usage-guide { background: rgba(51,112,255,0.05); border-left: 4px solid var(--primary); border-radius: var(--radius-md); padding: 20px; margin-top: 24px; }
+        .usage-guide h4 { font-size: 16px; font-weight: 600; color: var(--primary); margin-bottom: 12px; }
+        .usage-guide dt { font-weight: 600; color: var(--text-primary); font-size: 14px; margin-top: 12px; }
+        .usage-guide dd { color: var(--text-secondary); font-size: 14px; line-height: 1.6; margin: 0 0 12px 0; }
+        .usage-guide ul { list-style: none; padding-left: 0; }
+        .usage-guide li { color: var(--text-secondary); font-size: 14px; line-height: 1.8; padding-left: 20px; position: relative; }
+        .usage-guide li::before { content: '•'; color: var(--primary); position: absolute; left: 0; }
+        .code-block { background: #1e1e1e; color: #d4d4d4; padding: 16px; border-radius: var(--radius-md); font-family: Consolas, monospace; font-size: 13px; margin: 16px 0; }
+        .breadcrumb { display: flex; gap: 8px; color: var(--text-secondary); }
+        .breadcrumb-item::after { content: '/'; margin-left: 8px; color: var(--border); }
+        .avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--primary-gradient); color: white; display: flex; align-items: center; justify-content: center; font-weight: 600; }
+        .badge { position: relative; display: inline-block; }
+        .badge-dot { position: absolute; top: -4px; right: -4px; width: 8px; height: 8px; background: var(--red); border-radius: 50%; }
+        .tag { display: inline-block; padding: 4px 12px; border-radius: 6px; font-size: 12px; margin-right: 8px; background: var(--primary-gradient); color: white; }
+        .tree-item { padding: 8px 0; padding-left: 24px; position: relative; }
+        .tree-item::before { content: '📁'; position: absolute; left: 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 style="text-align: center; color: white; margin-bottom: 40px;">👁️ UED 展示组件库（8 个）</h1>
+
+        <!-- Breadcrumb -->
+        <div class="section">
+            <h2 class="section-title">🍞 1. Breadcrumb 面包屑</h2>
+            <div class="component-item">
+                <div class="breadcrumb">
+                    <span class="breadcrumb-item">首页</span>
+                    <span class="breadcrumb-item">部门管理</span>
+                    <span>详情</span>
+                </div>
+            </div>
+            <div class="usage-guide">
+                <h4>📖 使用说明</h4>
+                <dl>
+                    <dt>使用场景</dt><dd>导航路径、层级展示</dd>
+                    <dt>尺寸规范</dt><dd><ul><li>间距：8px</li><li>分隔符：/</li></ul></dd>
+                    <dt>代码示例</dt><dd><div class="code-block">&lt;Breadcrumb items={['首页', '部门管理', '详情']} /&gt;</div></dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- Avatar -->
+        <div class="section">
+            <h2 class="section-title">👤 2. Avatar 头像</h2>
+            <div class="component-item">
+                <div class="avatar">青</div>
+            </div>
+            <div class="usage-guide">
+                <h4>📖 使用说明</h4>
+                <dl>
+                    <dt>使用场景</dt><dd>用户头像、展示</dd>
+                    <dt>尺寸规范</dt><dd><ul><li>尺寸：40px（默认）/ 64px（大）</li><li>圆角：50%</li></ul></dd>
+                    <dt>代码示例</dt><dd><div class="code-block">&lt;Avatar name="青鸾" size={40} /&gt;</div></dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- Badge -->
+        <div class="section">
+            <h2 class="section-title">🔴 3. Badge 徽章</h2>
+            <div class="component-item">
+                <span class="badge">🔔<span class="badge-dot"></span></span>
+            </div>
+            <div class="usage-guide">
+                <h4>📖 使用说明</h4>
+                <dl>
+                    <dt>使用场景</dt><dd>消息提示、状态标记</dd>
+                    <dt>尺寸规范</dt><dd><ul><li>圆点：8px</li><li>数字徽章：18px</li></ul></dd>
+                    <dt>代码示例</dt><dd><div class="code-block">&lt;Badge count={5} /&gt;<br>&lt;Badge dot /&gt;</div></dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- Tag -->
+        <div class="section">
+            <h2 class="section-title">🏷️ 4. Tag 标签</h2>
+            <div class="component-item">
+                <span class="tag">标签 1</span>
+                <span class="tag">标签 2</span>
+            </div>
+            <div class="usage-guide">
+                <h4>📖 使用说明</h4>
+                <dl>
+                    <dt>使用场景</dt><dd>分类标记、关键词</dd>
+                    <dt>尺寸规范</dt><dd><ul><li>内边距：4px 12px</li><li>圆角：6px</li></ul></dd>
+                    <dt>代码示例</dt><dd><div class="code-block">&lt;Tag&gt;标签&lt;/Tag&gt;</div></dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- Empty -->
+        <div class="section">
+            <h2 class="section-title">📭 5. Empty 空状态</h2>
+            <div class="component-item" style="text-align: center; padding: 48px;">
+                <div style="font-size: 64px; margin-bottom: 16px;">📭</div>
+                <div style="color: var(--text-secondary);">暂无数据</div>
+            </div>
+            <div class="usage-guide">
+                <h4>📖 使用说明</h4>
+                <dl>
+                    <dt>使用场景</dt><dd>空数据、空列表</dd>
+                    <dt>尺寸规范</dt><dd><ul><li>图标：64px</li><li>文字：14px</li></ul></dd>
+                    <dt>代码示例</dt><dd><div class="code-block">&lt;Empty description="暂无数据" /&gt;</div></dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- Tree -->
+        <div class="section">
+            <h2 class="section-title">🌳 6. Tree 树形控件</h2>
+            <div class="component-item">
+                <div class="tree-item">📁 根目录</div>
+                <div class="tree-item" style="padding-left: 48px;">📄 文件 1</div>
+                <div class="tree-item" style="padding-left: 48px;">📄 文件 2</div>
+            </div>
+            <div class="usage-guide">
+                <h4>📖 使用说明</h4>
+                <dl>
+                    <dt>使用场景</dt><dd>层级数据、目录树</dd>
+                    <dt>尺寸规范</dt><dd><ul><li>缩进：24px</li><li>行高：32px</li></ul></dd>
+                    <dt>代码示例</dt><dd><div class="code-block">&lt;Tree data={treeData} /&gt;</div></dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- Collapse -->
+        <div class="section">
+            <h2 class="section-title">📂 7. Collapse 折叠面板</h2>
+            <div class="component-item">
+                <div style="border: 1px solid var(--border); border-radius: var(--radius-md); margin-bottom: 8px;">
+                    <div style="padding: 12px 16px; font-weight: 600; cursor: pointer;">▶️ 面板 1</div>
+                </div>
+            </div>
+            <div class="usage-guide">
+                <h4>📖 使用说明</h4>
+                <dl>
+                    <dt>使用场景</dt><dd>折叠内容、手风琴</dd>
+                    <dt>尺寸规范</dt><dd><ul><li>Header 高度：44px</li><li>圆角：8px</li></ul></dd>
+                    <dt>代码示例</dt><dd><div class="code-block">&lt;Collapse items={items} /&gt;</div></dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- Notification -->
+        <div class="section">
+            <h2 class="section-title">🔔 8. Notification 通知</h2>
+            <div class="component-item" style="background: rgba(51,112,255,0.1); border-left: 4px solid var(--primary); padding: 16px;">
+                <div style="font-weight: 600; margin-bottom: 4px;">通知标题</div>
+                <div style="color: var(--text-secondary); font-size: 14px;">通知内容描述</div>
+            </div>
+            <div class="usage-guide">
+                <h4>📖 使用说明</h4>
+                <dl>
+                    <dt>使用场景</dt><dd>消息通知、系统提示</dd>
+                    <dt>尺寸规范</dt><dd><ul><li>宽度：384px</li><li>内边距：16px</li></ul></dd>
+                    <dt>代码示例</dt><dd><div class="code-block">&lt;Notification message="标题" description="内容" /&gt;</div></dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
