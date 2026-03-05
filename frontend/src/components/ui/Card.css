@@ -1,0 +1,73 @@
+/* 卡片组件样式 - 来自 visual-demo.html */
+
+.card {
+  border-radius: 12px;
+  padding: 24px;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.card-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.card-extra {
+  flex-shrink: 0;
+}
+
+.card-body {
+  /* 内容区域 */
+}
+
+/* 玻璃态卡片 */
+.card-glass {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 16px rgba(51, 112, 255, 0.1);
+}
+
+.card-glass .card-title {
+  color: #1D2129;
+}
+
+.card-glass .card-body {
+  color: #595959;
+}
+
+/* 渐变卡片 */
+.card-gradient {
+  background: linear-gradient(135deg, #3370FF 0%, #722ED1 100%);
+  color: white;
+}
+
+.card-gradient .card-title {
+  color: white;
+}
+
+.card-gradient .card-body {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* 悬停效果 */
+.card-hoverable:hover {
+  transform: translateY(-4px);
+}
+
+.card-glass.card-hoverable:hover {
+  box-shadow: 0 12px 32px rgba(51, 112, 255, 0.2);
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.card-gradient.card-hoverable:hover {
+  box-shadow: 0 12px 32px rgba(114, 46, 209, 0.3);
+}

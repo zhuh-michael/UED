@@ -1,0 +1,39 @@
+{
+  "loginPage": {
+    "visual": "缺少 Logo",
+    "interaction": "表单清晰，有明确登录按钮",
+    "issues": [
+      "缺少品牌 Logo 标识",
+      "登录按钮文字有多余空格"
+    ]
+  },
+  "departmentManagement": {
+    "visual": "未使用树形展示",
+    "interaction": "有新增按钮",
+    "issues": [
+      "部门应使用树形结构展示层级关系"
+    ]
+  },
+  "employeeManagement": {
+    "visual": "列表展示规范",
+    "interaction": "筛选功能不完善",
+    "issues": [
+      "缺少员工搜索功能"
+    ]
+  },
+  "positionManagement": {
+    "visual": "列表展示清晰",
+    "interaction": "功能完整",
+    "issues": []
+  },
+  "rolePermission": {
+    "visual": "展示需优化",
+    "interaction": "权限配置功能缺失",
+    "issues": [
+      "角色列表展示不规范",
+      "缺少权限配置界面",
+      "缺少权限分配入口"
+    ]
+  },
+  "overallScore": 6.5
+}

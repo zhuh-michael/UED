@@ -1,0 +1,107 @@
+/* 表格组件样式 - 来自 visual-demo-data.html */
+
+.table-container {
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid #E5E6EB;
+  background: white;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+}
+
+.table thead {
+  background: linear-gradient(135deg, rgba(51, 112, 255, 0.08) 0%, rgba(114, 46, 209, 0.08) 100%);
+}
+
+.table th {
+  padding: 16px 20px;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1D2129;
+  border-bottom: 2px solid #E5E6EB;
+  white-space: nowrap;
+}
+
+.table tbody tr {
+  transition: all 0.2s ease;
+}
+
+.table tbody tr:hover {
+  background: rgba(51, 112, 255, 0.04);
+}
+
+.table td {
+  padding: 16px 20px;
+  font-size: 14px;
+  color: #595959;
+  border-bottom: 1px solid #E5E6EB;
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* 斑马纹 */
+.table-striped tbody tr:nth-child(even) {
+  background: #FAFAFA;
+}
+
+.table-striped tbody tr:nth-child(even):hover {
+  background: rgba(51, 112, 255, 0.04);
+}
+
+/* 状态徽章 */
+.status-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.status-success {
+  background: rgba(0, 179, 101, 0.1);
+  color: #00B365;
+}
+
+.status-warning {
+  background: rgba(255, 179, 0, 0.1);
+  color: #FFB300;
+}
+
+.status-error {
+  background: rgba(255, 77, 79, 0.1);
+  color: #FF4D4F;
+}
+
+.status-info {
+  background: rgba(51, 112, 255, 0.1);
+  color: #3370FF;
+}
+
+/* 操作链接 */
+.action-link {
+  color: #3370FF;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  margin-right: 8px;
+}
+
+.action-link:hover {
+  background: rgba(51, 112, 255, 0.1);
+}
+
+.action-link.delete:hover {
+  color: #FF4D4F;
+  background: rgba(255, 77, 79, 0.1);
+}

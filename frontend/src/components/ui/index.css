@@ -1,0 +1,79 @@
+/* UI 组件样式 - 基于 Demo 设计规范 */
+/* 注意：核心样式已在 demo-styles.css 中定义，这里只补充组件特定样式 */
+
+/* ========== 按钮组件 ========== */
+.btn-primary {
+  /* 继承 demo-styles.css 中的 .btn-primary */
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  /* 继承 demo-styles.css 中的悬停效果 */
+}
+
+/* ========== 卡片组件 ========== */
+.card-glass {
+  /* 继承 demo-styles.css 中的 .card-glass */
+  transition: all 0.3s ease;
+}
+
+.card-glass .ant-card-body {
+  padding: 24px;
+}
+
+.card-glass .ant-card-head {
+  background: transparent;
+  border-bottom: 1px solid rgba(51, 112, 255, 0.1);
+  font-weight: 600;
+}
+
+/* ========== 输入框组件 ========== */
+.input {
+  /* 继承 demo-styles.css 中的 .input */
+  transition: all 0.3s ease;
+}
+
+.input:hover:not(:focus):not(:disabled) {
+  border-color: #3370FF;
+}
+
+.input:disabled {
+  background: #F5F5F5;
+  cursor: not-allowed;
+}
+
+/* ========== 表格组件 ========== */
+.table-container {
+  padding: 0;
+  overflow: hidden;
+}
+
+.table-container .ant-table {
+  background: transparent;
+}
+
+.table-container .ant-table-thead > tr > th {
+  background: rgba(51, 112, 255, 0.05);
+  border-bottom: 2px solid rgba(51, 112, 255, 0.1);
+  font-weight: 600;
+  color: #3370FF;
+}
+
+.table-container .ant-table-tbody > tr:hover {
+  background: rgba(51, 112, 255, 0.05);
+}
+
+/* ========== 列表组件 ========== */
+.list-container {
+  padding: 0;
+}
+
+.list-container .ant-list-header {
+  background: rgba(51, 112, 255, 0.05);
+  border-bottom: 2px solid rgba(51, 112, 255, 0.1);
+  font-weight: 600;
+}
+
+.list-container .ant-list-item:hover {
+  background: rgba(51, 112, 255, 0.05);
+}
