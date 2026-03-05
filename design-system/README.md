@@ -1,83 +1,82 @@
 # UED 设计系统组件库
 
 **仓库**: https://github.com/zhuh-michael/UED  
-**设计风格**: 蓝紫渐变 + 玻璃态 + 流畅动效
+**设计风格**: 蓝紫渐变 + 玻璃态 + 流畅动效  
+**最后更新**: 2026-03-05
 
 ---
 
-## 📁 文件说明
+## 📁 文件说明（已去重合并）
 
 | 文件 | 大小 | 组件数 | 说明 |
 |------|------|--------|------|
-| demo.html | 89KB | 18 个 | 基础组件库（完整 18 模块） |
-| demo-components-p0.html | 25KB | 8 个 | P0 必备组件（Select/Checkbox/Radio/Switch/Modal/Progress/Skeleton/Tabs） |
-| visual-demo.html | 21KB | 7 个 | 视觉规范 Demo |
-| visual-demo-form.html | 20KB | 3 个 | 表单组件专项 |
-| visual-demo-list.html | 32KB | 4 个 | 列表组件专项 |
-| visual-demo-data.html | 39KB | 8 个 | 数据展示专项 |
+| **components-full.html** | ~150KB | 47 个 | **完整组件库（推荐使用）** |
+| demo.html | 89KB | 18 个 | 核心基础组件（保留向后兼容） |
+| demo-components-p0.html | 25KB | 8 个 | P0 补充组件（保留向后兼容） |
+| demo-components-p1.html | 58KB | 21 个 | P1/P2 组件（保留向后兼容） |
+
+### 已归档文件（重复组件，已合并到 components-full.html）
+- ~~visual-demo.html~~ - 视觉规范（已合并）
+- ~~visual-demo-form.html~~ - 表单专项（组件已重复）
+- ~~visual-demo-list.html~~ - 列表专项（组件已重复）
+- ~~visual-demo-data.html~~ - 数据展示专项（组件已重复）
 
 ---
 
-## ✅ 已有组件（26 个）
+## ✅ 完整组件清单（47 个）
 
-### 基础组件（18 个）
-- Button 按钮
-- Card 卡片
-- Input 输入框
-- Textarea 多行文本框
-- Rich Text Editor 富文本编辑器
-- File Upload 文件上传
-- Basic List 基础列表
-- Status List 状态列表
-- Card List 卡片列表
-- Timeline 时间线列表
-- Table 表格
-- Striped Table 斑马纹表格
-- Pagination 分页器
-- Card Grid 卡片网格
-- Loading 加载状态
-- Breadcrumb 面包屑导航
-- Notification 通知与消息提示
-- Color System 色彩系统
+### 核心基础组件（18 个）
+1. Color System 色彩系统
+2. Button 按钮
+3. Card 卡片
+4. Input 输入框
+5. Textarea 多行文本框
+6. Rich Text Editor 富文本编辑器
+7. File Upload 文件上传
+8. Basic List 基础列表
+9. Status List 状态列表
+10. Card List 卡片列表
+11. Timeline 时间线列表
+12. Table 表格
+13. Striped Table 斑马纹表格
+14. Pagination 分页器
+15. Card Grid 卡片网格
+16. Loading 加载状态
+17. Breadcrumb 面包屑导航
+18. Notification 通知与消息提示
 
 ### P0 补充组件（8 个）
-- Select 下拉选择
-- Checkbox 复选框
-- Radio 单选框
-- Switch 开关
-- Modal 弹窗
-- Progress 进度条
-- Skeleton 骨架屏
-- Tabs 标签页
+19. Select 下拉选择
+20. Checkbox 复选框
+21. Radio 单选框
+22. Switch 开关
+23. Modal 弹窗
+24. Progress 进度条
+25. Skeleton 骨架屏
+26. Tabs 标签页
 
----
-
-## 🎯 待补充组件（P1/P2）
-
-### P1 重要组件（约 15 个）
-- DatePicker 日期选择
-- Cascader 级联选择
-- Slider 滑块
-- Rate 评分
-- Drawer 抽屉
-- Tooltip 文字提示
-- Popover 气泡卡片
-- Steps 步骤条
-- Dropdown 下拉菜单
-- Avatar 头像
-- Badge 徽章
-- Tag 标签
-- Empty 空状态
-- Tree 树形控件
-- Collapse 折叠面板
-
-### P2 可选组件（约 5 个）
-- Divider 分割线
-- Carousel 走马灯
-- Calendar 日历
-- Descriptions 描述列表
-- Message 全局提示
-- Result 结果页
+### P1/P2 组件（21 个）
+27. DatePicker 日期选择
+28. Cascader 级联选择
+29. Slider 滑块
+30. Rate 评分
+31. Drawer 抽屉
+32. Tooltip 文字提示
+33. Popover 气泡卡片
+34. Steps 步骤条
+35. Dropdown 下拉菜单
+36. Avatar 头像
+37. Badge 徽章
+38. Tag 标签
+39. Divider 分割线
+40. Empty 空状态
+41. Tree 树形控件
+42. Collapse 折叠面板
+43. Carousel 走马灯
+44. Calendar 日历
+45. Descriptions 描述列表
+46. Message 全局提示
+47. Result 结果页
 
 ---
 
@@ -105,23 +104,23 @@
 
 ---
 
-## 🔄 更新流程
-
-1. 青鸾更新设计稿
-2. 复制到 `design-system/` 目录
-3. 提交 Git 并推送
-4. 通知麒麟实现
-
----
-
 ## 📅 更新记录
 
 | 日期 | 更新内容 | 组件数 |
 |------|----------|--------|
-| 2026-03-04 | 初始 18 个模块 | 18 |
-| 2026-03-04 | P0 组件 8 个 | +8 |
-| 2026-03-04 | 待补充 P1/P2 | ~20 |
+| 2026-03-05 | **去重合并** - 输出 components-full.html | 47 |
+| 2026-03-04 | P1/P2 组件补充 | +21 |
+| 2026-03-04 | P0 组件补充 | +8 |
+| 2026-03-04 | 初始 18 个基础组件 | 18 |
 
 ---
 
-_本文档由祖龙创建，青鸾负责维护更新。_
+## 🔗 使用建议
+
+1. **查看完整组件库**: 打开 `components-full.html`
+2. **开发参考**: 使用 `components-full.html` 作为设计稿
+3. **向后兼容**: 旧文件保留但不再维护
+
+---
+
+_本文档由青鸾维护，祖龙监督。_
