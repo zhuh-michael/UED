@@ -1,0 +1,1048 @@
+<!-- UED 布局组件库（8 个组件） -->
+<!-- 设计风格：蓝紫渐变 #3370FF → #722ED1，圆角 8px，玻璃态效果 -->
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UED 布局组件库</title>
+    <style>
+        :root {
+            --primary: #3370FF;
+            --primary-gradient: linear-gradient(135deg, #3370FF 0%, #722ED1 100%);
+            --purple: #722ED1;
+            --cyan: #33C3B0;
+            --orange: #FF7A45;
+            --green: #00B365;
+            --yellow: #FFB300;
+            --red: #FF4D4F;
+            --border: #E5E6EB;
+            --text-primary: rgba(0, 0, 0, 0.85);
+            --text-secondary: rgba(0, 0, 0, 0.45);
+            --text-disabled: rgba(0, 0, 0, 0.25);
+            --bg-disabled: #f5f5f5;
+            --radius-sm: 6px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --shadow-sm: 0 2px 8px rgba(51, 112, 255, 0.1);
+            --shadow-md: 0 4px 16px rgba(51, 112, 255, 0.2);
+            --shadow-lg: 0 8px 32px rgba(51, 112, 255, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            margin-bottom: 32px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .component-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+
+        /* 使用说明卡片 */
+        .usage-guide {
+            background: rgba(51, 112, 255, 0.05);
+            border-left: 4px solid var(--primary);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            margin-top: 24px;
+        }
+
+        .usage-guide h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+
+        .usage-guide dl {
+            display: block;
+            margin-bottom: 16px;
+        }
+
+        .usage-guide dt {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 14px;
+            margin-top: 12px;
+            margin-bottom: 6px;
+        }
+
+        .usage-guide dd {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 0 0 12px 0;
+        }
+
+        .usage-guide ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .usage-guide li {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.8;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .usage-guide li::before {
+            content: '•';
+            color: var(--primary);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        .status-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 14px;
+        }
+
+        .status-table th,
+        .status-table td {
+            padding: 12px 16px;
+            text-align: left;
+            border: 1px solid var(--border);
+        }
+
+        .status-table th {
+            background: var(--bg-disabled);
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .status-table td {
+            color: var(--text-secondary);
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 16px;
+            border-radius: var(--radius-md);
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            overflow-x: auto;
+            margin: 16px 0;
+        }
+
+        .code-block .keyword { color: #569cd6; }
+        .code-block .string { color: #ce9178; }
+        .code-block .comment { color: #6a9955; }
+        .code-block .function { color: #dcdcaa; }
+        .code-block .number { color: #b5cea8; }
+
+        .component-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .component-item {
+            background: #fafafa;
+            border-radius: var(--radius-md);
+            padding: 24px;
+            border: 1px solid var(--border);
+        }
+
+        .component-item.full-width {
+            grid-column: 1 / -1;
+        }
+
+        /* ========== 1. Layout 布局容器 ========== */
+        .layout-wrapper {
+            display: flex;
+            flex-direction: column;
+            height: 500px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+        }
+
+        .layout-header {
+            height: 60px;
+            background: var(--primary-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            color: white;
+        }
+
+        .layout-body {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .layout-sidebar {
+            width: 200px;
+            background: #fff;
+            border-right: 1px solid var(--border);
+            padding: 16px;
+            overflow-y: auto;
+        }
+
+        .layout-content {
+            flex: 1;
+            background: #fafafa;
+            padding: 24px;
+            overflow-y: auto;
+        }
+
+        .layout-footer {
+            height: 40px;
+            background: #fff;
+            border-top: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        /* ========== 2. Grid 栅格系统 ========== */
+        .grid-demo {
+            display: grid;
+            grid-template-columns: repeat(24, 1fr);
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .grid-col {
+            background: var(--primary-gradient);
+            color: white;
+            text-align: center;
+            padding: 12px 0;
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .grid-col-6 { grid-column: span 6; }
+        .grid-col-8 { grid-column: span 8; }
+        .grid-col-12 { grid-column: span 12; }
+        .grid-col-24 { grid-column: span 24; }
+
+        /* ========== 3. Space 间距组件 ========== */
+        .space-demo {
+            margin-bottom: 24px;
+        }
+
+        .space-horizontal {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .space-vertical {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .space-item {
+            width: 80px;
+            height: 40px;
+            background: var(--primary-gradient);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+        }
+
+        /* ========== 4. Container 容器 ========== */
+        .container-demo {
+            background: #fff;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+        }
+
+        .container-fixed {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        .container-fluid {
+            padding: 24px;
+        }
+
+        .container-box {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 24px;
+            border-radius: var(--radius-md);
+            text-align: center;
+        }
+
+        /* ========== 5. Divider 分割线 ========== */
+        .divider {
+            height: 1px;
+            background: var(--border);
+            margin: 24px 0;
+            position: relative;
+        }
+
+        .divider-with-text {
+            display: flex;
+            align-items: center;
+            margin: 24px 0;
+        }
+
+        .divider-with-text::before,
+        .divider-with-text::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        .divider-text {
+            padding: 0 16px;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .divider-vertical {
+            width: 1px;
+            height: 24px;
+            background: var(--border);
+            display: inline-block;
+            margin: 0 16px;
+            vertical-align: middle;
+        }
+
+        /* ========== 6. Header 顶部栏 ========== */
+        .header-demo {
+            height: 60px;
+            background: var(--primary-gradient);
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            color: white;
+            margin-bottom: 24px;
+        }
+
+        .header-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 16px;
+        }
+
+        .header-action-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .header-action-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* ========== 7. Sidebar 侧边栏 ========== */
+        .sidebar-demo {
+            width: 240px;
+            height: 400px;
+            background: #fff;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            display: inline-block;
+            vertical-align: top;
+            margin-right: 24px;
+        }
+
+        .sidebar-header {
+            height: 50px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .sidebar-menu {
+            padding: 12px 0;
+        }
+
+        .sidebar-menu-item {
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+        }
+
+        .sidebar-menu-item:hover {
+            background: rgba(51, 112, 255, 0.05);
+        }
+
+        .sidebar-menu-item.active {
+            background: rgba(51, 112, 255, 0.1);
+            color: var(--primary);
+            border-right: 3px solid var(--primary);
+        }
+
+        .sidebar-menu-icon {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ========== 8. Content 内容区 ========== */
+        .content-demo {
+            background: #fafafa;
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            min-height: 300px;
+        }
+
+        .content-card {
+            background: #fff;
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 16px;
+        }
+
+        .content-card-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .content-card-body {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 style="text-align: center; color: white; margin-bottom: 40px; font-size: 32px;">📐 UED 布局组件库（8 个）</h1>
+
+        <!-- 1. Layout 布局容器 -->
+        <div class="section">
+            <h2 class="section-title">📐 1. Layout 布局容器</h2>
+            <div class="component-label">经典上下左右布局</div>
+            <div class="layout-wrapper">
+                <div class="layout-header">
+                    <span style="font-weight: 600;">Logo</span>
+                    <span>导航菜单 | 用户头像</span>
+                </div>
+                <div class="layout-body">
+                    <div class="layout-sidebar">
+                        <div style="padding: 8px 0; color: var(--text-secondary);">📊 仪表盘</div>
+                        <div style="padding: 8px 0; color: var(--primary); font-weight: 500;">📁 部门管理</div>
+                        <div style="padding: 8px 0; color: var(--text-secondary);">👥 员工管理</div>
+                        <div style="padding: 8px 0; color: var(--text-secondary);">📋 岗位管理</div>
+                    </div>
+                    <div class="layout-content">
+                        <div style="background: #fff; padding: 24px; border-radius: 8px; height: 100%;">
+                            <h3 style="margin-bottom: 16px;">主内容区</h3>
+                            <p style="color: var(--text-secondary);">页面主要内容区域，自适应宽度</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="layout-footer">
+                    © 2026 青鸾组织架构管理系统 | 技术支持
+                </div>
+            </div>
+            
+            <div class="usage-guide">
+                <h4>📖 使用说明</h4>
+                <dl>
+                    <dt>使用场景</dt>
+                    <dd>后台管理系统主框架、企业应用整体布局</dd>
+                    
+                    <dt>尺寸规范</dt>
+                    <dd>
+                        <ul>
+                            <li>Header 高度：60px</li>
+                            <li>Sidebar 宽度：200px（支持折叠）</li>
+                            <li>Footer 高度：40px</li>
+                            <li>Content：自适应宽度，内边距 24px</li>
+                        </ul>
+                    </dd>
+                    
+                    <dt>结构说明</dt>
+                    <dd>
+                        <ul>
+                            <li>Layout：最外层容器，flex 纵向布局</li>
+                            <li>Header：顶部导航，固定高度</li>
+                            <li>Layout.Body：中间区域，flex 横向布局</li>
+                            <li>Sidebar：左侧导航，固定宽度</li>
+                            <li>Content：主内容区，flex: 1 自适应</li>
+                            <li>Footer：底部信息，固定高度</li>
+                        </ul>
+                    </dd>
+                    
+                    <dt>代码示例</dt>
+                    <dd>
+                        <div class="code-block"><span class="keyword">import</span> { Layout } <span class="keyword">from</span> <span class="string">'@/components/ui'</span>
+
+&lt;Layout&gt;
+  &lt;Layout.Header&gt;
+    &lt;Logo /&gt;
+    &lt;NavMenu /&gt;
+    &lt;UserAvatar /&gt;
+  &lt;/Layout.Header&gt;
+  
+  &lt;Layout.Body&gt;
+    &lt;Layout.Sidebar&gt;
+      &lt;Menu items={menuItems} /&gt;
+    &lt;/Layout.Sidebar&gt;
+    
+    &lt;Layout.Content&gt;
+      &lt;RouterOutlet /&gt;
+    &lt;/Layout.Content&gt;
+  &lt;/Layout.Body&gt;
+  
+  &lt;Layout.Footer&gt;
+    © 2026 Company Name
+  &lt;/Layout.Footer&gt;
+&lt;/Layout&gt;</div>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- 2. Header 顶部栏 -->
+        <div class="section">
+            <h2 class="section-title">🔝 2. Header 顶部栏</h2>
+            <div class="header-demo">
+                <div class="header-title">青鸾组织架构</div>
+                <div class="header-actions">
+                    <div class="header-action-btn">🔔</div>
+                    <div class="header-action-btn">⚙️</div>
+                    <div class="header-action-btn">👤</div>
+                </div>
+            </div>
+            
+            <div class="usage-guide">
+                <h4>📖 使用说明</h4>
+                <dl>
+                    <dt>使用场景</dt>
+                    <dd>页面顶部导航、品牌展示、全局操作入口</dd>
+                    
+                    <dt>尺寸规范</dt>
+                    <dd>
+                        <ul>
+                            <li>高度：60px</li>
+                            <li>左右内边距：24px</li>
+                            <li>Logo 区域：自适应</li>
+                            <li>操作按钮：36px × 36px</li>
+                        </ul>
+                    </dd>
+                    
+                    <dt>内容区域</dt>
+                    <dd>
+                        <ul>
+                            <li>左侧：Logo / 页面标题</li>
+                            <li>中间：搜索框 / 导航菜单（可选）</li>
+                            <li>右侧：通知 / 设置 / 用户头像</li>
+                        </ul>
+                    </dd>
+                    
+                    <dt>代码示例</dt>
+                    <dd>
+                        <div class="code-block"><span class="keyword">import</span> { Header } <span class="keyword">from</span> <span class="string">'@/components/ui'</span>
+
+&lt;Header&gt;
+  &lt;Header.Left&gt;
+    &lt;Logo src="/logo.png" /&gt;
+  &lt;/Header.Left&gt;
+  
+  &lt;Header.Center&gt;
+    &lt;SearchBox placeholder="搜索..." /&gt;
+  &lt;/Header.Center&gt;
+  
+  &lt;Header.Right&gt;
+    &lt;NotificationBadge count={5} /&gt;
+    &lt;SettingsIcon /&gt;
+    &lt;UserAvatar name="青鸾" /&gt;
+  &lt;/Header.Right&gt;
+&lt;/Header&gt;</div>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- 3. Sidebar 侧边栏 -->
+        <div class="section">
+            <h2 class="section-title">📑 3. Sidebar 侧边栏</h2>
+            <div class="sidebar-demo">
+                <div class="sidebar-header">📁 组织架构</div>
+                <div class="sidebar-menu">
+                    <div class="sidebar-menu-item">
+                        <span class="sidebar-menu-icon">📊</span>
+                        <span>仪表盘</span>
+                    </div>
+                    <div class="sidebar-menu-item active">
+                        <span class="sidebar-menu-icon">📁</span>
+                        <span>部门管理</span>
+                    </div>
+                    <div class="sidebar-menu-item">
+                        <span class="sidebar-menu-icon">👥</span>
+                        <span>员工管理</span>
+                    </div>
+                    <div class="sidebar-menu-item">
+                        <span class="sidebar-menu-icon">📋</span>
+                        <span>岗位管理</span>
+                    </div>
+                    <div class="sidebar-menu-item">
+                        <span class="sidebar-menu-icon">🔐</span>
+                        <span>角色权限</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="usage-guide">
+                <h4>📖 使用说明</h4>
+                <dl>
+                    <dt>使用场景</dt>
+                    <dd>左侧导航菜单、功能分类、层级导航</dd>
+                    
+                    <dt>尺寸规范</dt>
+                    <dd>
+                        <ul>
+                            <li>宽度：240px（默认）/ 64px（折叠）</li>
+                            <li>菜单项高度：44px</li>
+                            <li>图标尺寸：20px × 20px</li>
+                            <li>内边距：12px 0</li>
+                        </ul>
+                    </dd>
+                    
+                    <dt>状态说明</dt>
+                    <dd>
+                        <table class="status-table">
+                            <tr><th>状态</th><th>背景</th><th>文字</th><th>说明</th></tr>
+                            <tr><td>默认</td><td>transparent</td><td>#303133</td><td>正常状态</td></tr>
+                            <tr><td>Hover</td><td>rgba(51,112,255,0.05)</td><td>#303133</td><td>悬停预览</td></tr>
+                            <tr><td>Active</td><td>rgba(51,112,255,0.1)</td><td>#3370FF</td><td>选中状态 + 右侧竖条</td></tr>
+                        </table>
+                    </dd>
+                    
+                    <dt>代码示例</dt>
+                    <dd>
+                        <div class="code-block"><span class="keyword">import</span> { Sidebar } <span class="keyword">from</span> <span class="string">'@/components/ui'</span>
+
+&lt;Sidebar 
+  width={240}
+  collapsed={false}
+  onCollapse={handleCollapse}
+&gt;
+  &lt;Sidebar.Header&gt;
+    &lt;Title&gt;组织架构&lt;/Title&gt;
+  &lt;/Sidebar.Header&gt;
+  
+  &lt;Sidebar.Menu&gt;
+    &lt;Menu.Item 
+      icon="📊" 
+      active={current === 'dashboard'}
+      onClick={() => setCurrent('dashboard')}
+    &gt;
+      仪表盘
+    &lt;/Menu.Item&gt;
+    
+    &lt;Menu.Item 
+      icon="📁" 
+      active={current === 'department'}
+      onClick={() => setCurrent('department')}
+    &gt;
+      部门管理
+    &lt;/Menu.Item&gt;
+  &lt;/Sidebar.Menu&gt;
+&lt;/Sidebar&gt;</div>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- 4. Content 内容区 -->
+        <div class="section">
+            <h2 class="section-title">📄 4. Content 内容区</h2>
+            <div class="content-demo">
+                <div class="content-card">
+                    <div class="content-card-title">📊 数据统计</div>
+                    <div class="content-card-body">
+                        内容区支持卡片式布局，可放置表格、表单、图表等内容组件。
+                        背景色 #FAFAFA，与白色卡片形成对比。
+                    </div>
+                </div>
+                <div class="content-card">
+                    <div class="content-card-title">📋 待办事项</div>
+                    <div class="content-card-body">
+                        支持多个内容卡片垂直排列，保持统一间距和视觉风格。
+                        卡片间距 16px，圆角 12px，阴影轻微。
+                    </div>
+                </div>
+            </div>
+            
+            <div class="usage-guide">
+                <h4>📖 使用说明</h4>
+                <dl>
+                    <dt>使用场景</dt>
+                    <dd>页面主内容区域、数据展示、表单容器</dd>
+                    
+                    <dt>尺寸规范</dt>
+                    <dd>
+                        <ul>
+                            <li>宽度：自适应（flex: 1）</li>
+                            <li>内边距：24px</li>
+                            <li>背景色：#FAFAFA</li>
+                            <li>卡片间距：16px</li>
+                        </ul>
+                    </dd>
+                    
+                    <dt>布局建议</dt>
+                    <dd>
+                        <ul>
+                            <li>单列布局：适合表单、详情</li>
+                            <li>双列布局：适合列表 + 详情</li>
+                            <li>网格布局：适合数据卡片</li>
+                        </ul>
+                    </dd>
+                    
+                    <dt>代码示例</dt>
+                    <dd>
+                        <div class="code-block"><span class="keyword">import</span> { Content, Card } <span class="keyword">from</span> <span class="string">'@/components/ui'</span>
+
+&lt;Content padding={24}&gt;
+  &lt;Card title="数据统计"&gt;
+    &lt;StatisticsChart data={data} /&gt;
+  &lt;/Card&gt;
+  
+  &lt;Card title="待办事项" style={{ marginTop: 16 }}&gt;
+    &lt;TodoList items={todos} /&gt;
+  &lt;/Card&gt;
+&lt;/Content&gt;</div>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- 5. Grid 栅格系统 -->
+        <div class="section">
+            <h2 class="section-title">🔲 5. Grid 栅格系统</h2>
+            <div class="component-label">24 栅格布局</div>
+            <div class="grid-demo">
+                <div class="grid-col grid-col-6">6 列</div>
+                <div class="grid-col grid-col-6">6 列</div>
+                <div class="grid-col grid-col-6">6 列</div>
+                <div class="grid-col grid-col-6">6 列</div>
+            </div>
+            <div class="grid-demo">
+                <div class="grid-col grid-col-8">8 列</div>
+                <div class="grid-col grid-col-8">8 列</div>
+                <div class="grid-col grid-col-8">8 列</div>
+            </div>
+            <div class="grid-demo">
+                <div class="grid-col grid-col-12">12 列</div>
+                <div class="grid-col grid-col-12">12 列</div>
+            </div>
+            <div class="grid-demo">
+                <div class="grid-col grid-col-24">24 列（通栏）</div>
+            </div>
+            
+            <div class="usage-guide">
+                <h4>📖 使用说明</h4>
+                <dl>
+                    <dt>使用场景</dt>
+                    <dd>响应式布局、卡片排列、表单布局</dd>
+                    
+                    <dt>尺寸规范</dt>
+                    <dd>
+                        <ul>
+                            <li>总列数：24 列</li>
+                            <li>Gutter（间距）：8px</li>
+                            <li>断点：xs(&lt;576px) / sm(≥576px) / md(≥768px) / lg(≥992px) / xl(≥1200px)</li>
+                        </ul>
+                    </dd>
+                    
+                    <dt>响应式规则</dt>
+                    <dd>
+                        <table class="status-table">
+                            <tr><th>断点</th><th>宽度</th><th>列数</th><th>说明</th></tr>
+                            <tr><td>xs</td><td>&lt;576px</td><td>1 列</td><td>手机竖屏</td></tr>
+                            <tr><td>sm</td><td>≥576px</td><td>2 列</td><td>手机横屏</td></tr>
+                            <tr><td>md</td><td>≥768px</td><td>3 列</td><td>平板</td></tr>
+                            <tr><td>lg</td><td>≥992px</td><td>4 列</td><td>笔记本</td></tr>
+                            <tr><td>xl</td><td>≥1200px</td><td>6 列</td><td>桌面</td></tr>
+                        </table>
+                    </dd>
+                    
+                    <dt>代码示例</dt>
+                    <dd>
+                        <div class="code-block"><span class="keyword">import</span> { Row, Col } <span class="keyword">from</span> <span class="string">'@/components/ui'</span>
+
+&lt;Row gutter={8}&gt;
+  &lt;Col span={6} xs={24} sm={12} md={6}&gt;
+    &lt;Card&gt;卡片 1&lt;/Card&gt;
+  &lt;/Col&gt;
+  &lt;Col span={6} xs={24} sm={12} md={6}&gt;
+    &lt;Card&gt;卡片 2&lt;/Card&gt;
+  &lt;/Col&gt;
+  &lt;Col span={6} xs={24} sm={12} md={6}&gt;
+    &lt;Card&gt;卡片 3&lt;/Card&gt;
+  &lt;/Col&gt;
+  &lt;Col span={6} xs={24} sm={12} md={6}&gt;
+    &lt;Card&gt;卡片 4&lt;/Card&gt;
+  &lt;/Col&gt;
+&lt;/Row&gt;</div>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- 6. Space 间距组件 -->
+        <div class="section">
+            <h2 class="section-title">📏 6. Space 间距组件</h2>
+            <div class="space-demo">
+                <div class="component-label">水平间距（gap: 16px）</div>
+                <div class="space-horizontal">
+                    <div class="space-item">按钮 1</div>
+                    <div class="space-item">按钮 2</div>
+                    <div class="space-item">按钮 3</div>
+                </div>
+            </div>
+            <div class="space-demo">
+                <div class="component-label">垂直间距（gap: 16px）</div>
+                <div class="space-vertical">
+                    <div class="space-item">卡片 1</div>
+                    <div class="space-item">卡片 2</div>
+                    <div class="space-item">卡片 3</div>
+                </div>
+            </div>
+            
+            <div class="usage-guide">
+                <h4>📖 使用说明</h4>
+                <dl>
+                    <dt>使用场景</dt>
+                    <dd>统一元素间距、按钮组、卡片列表、表单控件间距</dd>
+                    
+                    <dt>尺寸规范</dt>
+                    <dd>
+                        <ul>
+                            <li>支持间距：8px / 12px / 16px / 24px / 32px</li>
+                            <li>方向：horizontal（水平）/ vertical（垂直）</li>
+                            <li>对齐：start / center / end / baseline</li>
+                        </ul>
+                    </dd>
+                    
+                    <dt>代码示例</dt>
+                    <dd>
+                        <div class="code-block"><span class="keyword">import</span> { Space, Button } <span class="keyword">from</span> <span class="string">'@/components/ui'</span>
+
+<span class="comment">// 水平间距</span>
+&lt;Space size={16} direction="horizontal"&gt;
+  &lt;Button type="primary"&gt;提交&lt;/Button&gt;
+  &lt;Button&gt;取消&lt;/Button&gt;
+&lt;/Space&gt;
+
+<span class="comment">// 垂直间距</span>
+&lt;Space size={24} direction="vertical"&gt;
+  &lt;Card&gt;卡片 1&lt;/Card&gt;
+  &lt;Card&gt;卡片 2&lt;/Card&gt;
+  &lt;Card&gt;卡片 3&lt;/Card&gt;
+&lt;/Space&gt;</div>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- 7. Divider 分割线 -->
+        <div class="section">
+            <h2 class="section-title">➖ 7. Divider 分割线</h2>
+            <div class="component-label">水平分割线</div>
+            <div>内容区域上方</div>
+            <div class="divider"></div>
+            <div>内容区域下方</div>
+
+            <div class="component-label" style="margin-top: 32px;">带文字分割线</div>
+            <div>上方内容</div>
+            <div class="divider-with-text">
+                <span class="divider-text">更多</span>
+            </div>
+            <div>下方内容</div>
+
+            <div class="component-label" style="margin-top: 32px;">垂直分割线</div>
+            <div style="display: flex; align-items: center;">
+                <span>操作 1</span>
+                <span class="divider-vertical"></span>
+                <span>操作 2</span>
+                <span class="divider-vertical"></span>
+                <span>操作 3</span>
+            </div>
+            
+            <div class="usage-guide">
+                <h4>📖 使用说明</h4>
+                <dl>
+                    <dt>使用场景</dt>
+                    <dd>内容分隔、操作项分隔、区域划分</dd>
+                    
+                    <dt>尺寸规范</dt>
+                    <dd>
+                        <ul>
+                            <li>线宽：1px</li>
+                            <li>颜色：#E5E6EB</li>
+                            <li>文字间距：16px</li>
+                            <li>垂直高度：24px</li>
+                        </ul>
+                    </dd>
+                    
+                    <dt>类型说明</dt>
+                    <dd>
+                        <table class="status-table">
+                            <tr><th>类型</th><th>方向</th><th>说明</th></tr>
+                            <tr><td>水平</td><td>horizontal</td><td>默认，分隔上下内容</td></tr>
+                            <tr><td>垂直</td><td>vertical</td><td>分隔左右操作项</td></tr>
+                            <tr><td>带文字</td><td>horizontal</td><td>中间显示文字标签</td></tr>
+                        </table>
+                    </dd>
+                    
+                    <dt>代码示例</dt>
+                    <dd>
+                        <div class="code-block"><span class="keyword">import</span> { Divider } <span class="keyword">from</span> <span class="string">'@/components/ui'</span>
+
+<span class="comment">// 水平分割线</span>
+&lt;Divider /&gt;
+
+<span class="comment">// 带文字</span>
+&lt;Divider orientation="center"&gt;更多选项&lt;/Divider&gt;
+
+<span class="comment">// 垂直分割线</span>
+&lt;span&gt;操作 1&lt;/span&gt;
+&lt;Divider type="vertical" /&gt;
+&lt;span&gt;操作 2&lt;/span&gt;
+&lt;Divider type="vertical" /&gt;
+&lt;span&gt;操作 3&lt;/span&gt;</div>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- 8. Container 容器 -->
+        <div class="section">
+            <h2 class="section-title">📦 8. Container 容器</h2>
+            <div class="container-demo">
+                <div class="container-fixed">
+                    <div class="container-box">
+                        <h3 style="margin-bottom: 8px;">固定宽度容器</h3>
+                        <p>max-width: 1200px，居中显示</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="usage-guide">
+                <h4>📖 使用说明</h4>
+                <dl>
+                    <dt>使用场景</dt>
+                    <dd>页面内容居中、限制最大宽度、统一内容区域</dd>
+                    
+                    <dt>尺寸规范</dt>
+                    <dd>
+                        <ul>
+                            <li>固定宽度：1200px（可配置）</li>
+                            <li>响应式：100%（&lt;1200px）</li>
+                            <li>左右边距：auto（居中）</li>
+                            <li>内边距：24px</li>
+                        </ul>
+                    </dd>
+                    
+                    <dt>代码示例</dt>
+                    <dd>
+                        <div class="code-block"><span class="keyword">import</span> { Container } <span class="keyword">from</span> <span class="string">'@/components/ui'</span>
+
+<span class="comment">// 固定宽度（居中）</span>
+&lt;Container width={1200}&gt;
+  &lt;PageContent /&gt;
+&lt;/Container&gt;
+
+<span class="comment">// 流体宽度（100%）</span>
+&lt;Container fluid&gt;
+  &lt;FullWidthContent /&gt;
+&lt;/Container&gt;</div>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- 总结 -->
+        <div class="section" style="background: var(--primary-gradient); color: white;">
+            <h2 class="section-title" style="border-bottom-color: rgba(255,255,255,0.3);">📐 布局组件使用指南</h2>
+            <div style="line-height: 2;">
+                <strong>1. 标准后台布局：</strong> Layout → Header + Sidebar + Content + Footer<br>
+                <strong>2. 简单页面布局：</strong> Header + Content<br>
+                <strong>3. 响应式布局：</strong> 使用 Grid 栅格系统 + Space 间距<br>
+                <strong>4. 内容分隔：</strong> 使用 Divider 分割线<br>
+                <strong>5. 内容居中：</strong> 使用 Container 容器
+            </div>
+        </div>
+    </div>
+</body>
+</html>
