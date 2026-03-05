@@ -973,7 +973,7 @@
         .timeline::before {
             content: '';
             position: absolute;
-            left: 10px;
+            left: 11px;
             top: 0;
             bottom: 0;
             width: 2px;
@@ -992,15 +992,16 @@
 
         .timeline-dot {
             position: absolute;
-            left: -36px;
+            left: -40px;
             top: 0;
-            width: 22px;
-            height: 22px;
+            width: 24px;
+            height: 24px;
             border-radius: 50%;
             background: white;
             border: 3px solid #3370FF;
             z-index: 1;
             transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
         .timeline-item:hover .timeline-dot {
@@ -3966,23 +3967,25 @@
             display: flex;
             justify-content: space-between;
             position: relative;
-            padding: 20px 0;
+            padding: 40px 20px 20px;
         }
 
         .steps-wrapper::before {
             content: '';
             position: absolute;
             top: 20px;
-            left: 40px;
-            right: 40px;
+            left: 60px;
+            right: 60px;
             height: 2px;
             background: var(--border);
+            z-index: 0;
         }
 
         .step-item {
             position: relative;
             text-align: center;
             flex: 1;
+            z-index: 1;
         }
 
         .step-icon {
@@ -3994,13 +3997,13 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 12px;
+            margin: 0 auto 16px;
             font-size: 18px;
             font-weight: 600;
             color: var(--text-secondary);
             transition: all 0.3s ease;
             position: relative;
-            z-index: 1;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         }
 
         .step-item.active .step-icon {
