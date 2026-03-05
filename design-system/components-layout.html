@@ -1,0 +1,600 @@
+<!-- UED 布局组件库 -->
+<!-- 设计风格：蓝紫渐变 #3370FF → #722ED1，圆角 8px，玻璃态效果 -->
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UED 布局组件库</title>
+    <style>
+        :root {
+            --primary: #3370FF;
+            --primary-gradient: linear-gradient(135deg, #3370FF 0%, #722ED1 100%);
+            --purple: #722ED1;
+            --cyan: #33C3B0;
+            --orange: #FF7A45;
+            --green: #00B365;
+            --yellow: #FFB300;
+            --red: #FF4D4F;
+            --border: #E5E6EB;
+            --text-primary: rgba(0, 0, 0, 0.85);
+            --text-secondary: rgba(0, 0, 0, 0.45);
+            --text-disabled: rgba(0, 0, 0, 0.25);
+            --bg-disabled: #f5f5f5;
+            --radius-sm: 6px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --shadow-sm: 0 2px 8px rgba(51, 112, 255, 0.1);
+            --shadow-md: 0 4px 16px rgba(51, 112, 255, 0.2);
+            --shadow-lg: 0 8px 32px rgba(51, 112, 255, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            margin-bottom: 32px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .component-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+
+        .tip {
+            background: rgba(51, 112, 255, 0.1);
+            border-left: 4px solid var(--primary);
+            padding: 12px 16px;
+            border-radius: 4px;
+            margin-top: 16px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        /* ========== 1. Layout 布局容器 ========== */
+        .layout-wrapper {
+            display: flex;
+            flex-direction: column;
+            height: 500px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+        }
+
+        .layout-header {
+            height: 60px;
+            background: var(--primary-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            color: white;
+        }
+
+        .layout-body {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .layout-sidebar {
+            width: 200px;
+            background: #fff;
+            border-right: 1px solid var(--border);
+            padding: 16px;
+            overflow-y: auto;
+        }
+
+        .layout-content {
+            flex: 1;
+            background: #fafafa;
+            padding: 24px;
+            overflow-y: auto;
+        }
+
+        .layout-footer {
+            height: 40px;
+            background: #fff;
+            border-top: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        /* ========== 2. Grid 栅格系统 ========== */
+        .grid-demo {
+            display: grid;
+            grid-template-columns: repeat(24, 1fr);
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .grid-col {
+            background: var(--primary-gradient);
+            color: white;
+            text-align: center;
+            padding: 12px 0;
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .grid-col-6 { grid-column: span 6; }
+        .grid-col-8 { grid-column: span 8; }
+        .grid-col-12 { grid-column: span 12; }
+        .grid-col-24 { grid-column: span 24; }
+
+        /* ========== 3. Space 间距组件 ========== */
+        .space-demo {
+            margin-bottom: 24px;
+        }
+
+        .space-horizontal {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .space-vertical {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .space-item {
+            width: 80px;
+            height: 40px;
+            background: var(--primary-gradient);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+        }
+
+        /* ========== 4. Container 容器 ========== */
+        .container-demo {
+            background: #fff;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+        }
+
+        .container-fixed {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        .container-fluid {
+            padding: 24px;
+        }
+
+        .container-box {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 24px;
+            border-radius: var(--radius-md);
+            text-align: center;
+        }
+
+        /* ========== 5. Divider 分割线 ========== */
+        .divider {
+            height: 1px;
+            background: var(--border);
+            margin: 24px 0;
+            position: relative;
+        }
+
+        .divider-with-text {
+            display: flex;
+            align-items: center;
+            margin: 24px 0;
+        }
+
+        .divider-with-text::before,
+        .divider-with-text::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        .divider-text {
+            padding: 0 16px;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .divider-vertical {
+            width: 1px;
+            height: 24px;
+            background: var(--border);
+            display: inline-block;
+            margin: 0 16px;
+            vertical-align: middle;
+        }
+
+        /* ========== 6. Header 顶部栏（独立） ========== */
+        .header-demo {
+            height: 60px;
+            background: var(--primary-gradient);
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            color: white;
+            margin-bottom: 24px;
+        }
+
+        .header-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 16px;
+        }
+
+        .header-action-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .header-action-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* ========== 7. Sidebar 侧边栏（独立） ========== */
+        .sidebar-demo {
+            width: 240px;
+            height: 400px;
+            background: #fff;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            display: inline-block;
+            vertical-align: top;
+            margin-right: 24px;
+        }
+
+        .sidebar-header {
+            height: 50px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .sidebar-menu {
+            padding: 12px 0;
+        }
+
+        .sidebar-menu-item {
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+        }
+
+        .sidebar-menu-item:hover {
+            background: rgba(51, 112, 255, 0.05);
+        }
+
+        .sidebar-menu-item.active {
+            background: rgba(51, 112, 255, 0.1);
+            color: var(--primary);
+            border-right: 3px solid var(--primary);
+        }
+
+        .sidebar-menu-icon {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ========== 8. Content 内容区（独立） ========== */
+        .content-demo {
+            background: #fafafa;
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            min-height: 300px;
+        }
+
+        .content-card {
+            background: #fff;
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 16px;
+        }
+
+        .content-card-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .content-card-body {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 style="text-align: center; color: white; margin-bottom: 40px; font-size: 32px;">📐 UED 布局组件库</h1>
+
+        <!-- 1. Layout 布局容器 -->
+        <div class="section">
+            <h2 class="section-title">📐 1. Layout 布局容器</h2>
+            <div class="component-label">经典上下左右布局</div>
+            <div class="layout-wrapper">
+                <div class="layout-header">
+                    <span style="font-weight: 600;">Logo</span>
+                    <span>导航菜单 | 用户头像</span>
+                </div>
+                <div class="layout-body">
+                    <div class="layout-sidebar">
+                        <div style="padding: 8px 0; color: var(--text-secondary);">📊 仪表盘</div>
+                        <div style="padding: 8px 0; color: var(--primary); font-weight: 500;">📁 部门管理</div>
+                        <div style="padding: 8px 0; color: var(--text-secondary);">👥 员工管理</div>
+                        <div style="padding: 8px 0; color: var(--text-secondary);">📋 岗位管理</div>
+                    </div>
+                    <div class="layout-content">
+                        <div style="background: #fff; padding: 24px; border-radius: 8px; height: 100%;">
+                            <h3 style="margin-bottom: 16px;">主内容区</h3>
+                            <p style="color: var(--text-secondary);">页面主要内容区域，自适应宽度</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="layout-footer">
+                    © 2026 青鸾组织架构管理系统 | 技术支持
+                </div>
+            </div>
+            <div class="tip">
+                <strong>💡 使用场景：</strong> 后台管理系统、企业应用主框架<br>
+                <strong>📏 尺寸规范：</strong> Header 高度 60px，Sidebar 宽度 200px（可折叠），Footer 高度 40px
+            </div>
+        </div>
+
+        <!-- 2. Header 顶部栏 -->
+        <div class="section">
+            <h2 class="section-title">🔝 2. Header 顶部栏</h2>
+            <div class="header-demo">
+                <div class="header-title">青鸾组织架构</div>
+                <div class="header-actions">
+                    <div class="header-action-btn">🔔</div>
+                    <div class="header-action-btn">⚙️</div>
+                    <div class="header-action-btn">👤</div>
+                </div>
+            </div>
+            <div class="tip">
+                <strong>💡 使用场景：</strong> 页面顶部导航、品牌展示、全局操作<br>
+                <strong>📏 尺寸规范：</strong> 高度 60px，左右内边距 24px
+            </div>
+        </div>
+
+        <!-- 3. Sidebar 侧边栏 -->
+        <div class="section">
+            <h2 class="section-title">📑 3. Sidebar 侧边栏</h2>
+            <div class="sidebar-demo">
+                <div class="sidebar-header">📁 组织架构</div>
+                <div class="sidebar-menu">
+                    <div class="sidebar-menu-item">
+                        <span class="sidebar-menu-icon">📊</span>
+                        <span>仪表盘</span>
+                    </div>
+                    <div class="sidebar-menu-item active">
+                        <span class="sidebar-menu-icon">📁</span>
+                        <span>部门管理</span>
+                    </div>
+                    <div class="sidebar-menu-item">
+                        <span class="sidebar-menu-icon">👥</span>
+                        <span>员工管理</span>
+                    </div>
+                    <div class="sidebar-menu-item">
+                        <span class="sidebar-menu-icon">📋</span>
+                        <span>岗位管理</span>
+                    </div>
+                    <div class="sidebar-menu-item">
+                        <span class="sidebar-menu-icon">🔐</span>
+                        <span>角色权限</span>
+                    </div>
+                </div>
+            </div>
+            <div class="tip">
+                <strong>💡 使用场景：</strong> 左侧导航菜单、功能分类<br>
+                <strong>📏 尺寸规范：</strong> 宽度 240px（可配置），菜单项高度 44px
+            </div>
+        </div>
+
+        <!-- 4. Content 内容区 -->
+        <div class="section">
+            <h2 class="section-title">📄 4. Content 内容区</h2>
+            <div class="content-demo">
+                <div class="content-card">
+                    <div class="content-card-title">📊 数据统计</div>
+                    <div class="content-card-body">
+                        内容区支持卡片式布局，可放置表格、表单、图表等内容组件。
+                    </div>
+                </div>
+                <div class="content-card">
+                    <div class="content-card-title">📋 待办事项</div>
+                    <div class="content-card-body">
+                        支持多个内容卡片垂直排列，保持统一间距和视觉风格。
+                    </div>
+                </div>
+            </div>
+            <div class="tip">
+                <strong>💡 使用场景：</strong> 页面主内容区域、数据展示<br>
+                <strong>📏 尺寸规范：</strong> 自适应宽度，内边距 24px，卡片间距 16px
+            </div>
+        </div>
+
+        <!-- 5. Grid 栅格系统 -->
+        <div class="section">
+            <h2 class="section-title">🔲 5. Grid 栅格系统</h2>
+            <div class="component-label">24 栅格布局</div>
+            <div class="grid-demo">
+                <div class="grid-col grid-col-6">6 列</div>
+                <div class="grid-col grid-col-6">6 列</div>
+                <div class="grid-col grid-col-6">6 列</div>
+                <div class="grid-col grid-col-6">6 列</div>
+            </div>
+            <div class="grid-demo">
+                <div class="grid-col grid-col-8">8 列</div>
+                <div class="grid-col grid-col-8">8 列</div>
+                <div class="grid-col grid-col-8">8 列</div>
+            </div>
+            <div class="grid-demo">
+                <div class="grid-col grid-col-12">12 列</div>
+                <div class="grid-col grid-col-12">12 列</div>
+            </div>
+            <div class="grid-demo">
+                <div class="grid-col grid-col-24">24 列（通栏）</div>
+            </div>
+            <div class="tip">
+                <strong>💡 使用场景：</strong> 响应式布局、卡片排列、表单布局<br>
+                <strong>📏 尺寸规范：</strong> 24 栅格，gutter 8px，支持响应式断点
+            </div>
+        </div>
+
+        <!-- 6. Space 间距组件 -->
+        <div class="section">
+            <h2 class="section-title">📏 6. Space 间距组件</h2>
+            <div class="space-demo">
+                <div class="component-label">水平间距（gap: 16px）</div>
+                <div class="space-horizontal">
+                    <div class="space-item">按钮 1</div>
+                    <div class="space-item">按钮 2</div>
+                    <div class="space-item">按钮 3</div>
+                </div>
+            </div>
+            <div class="space-demo">
+                <div class="component-label">垂直间距（gap: 16px）</div>
+                <div class="space-vertical">
+                    <div class="space-item">卡片 1</div>
+                    <div class="space-item">卡片 2</div>
+                    <div class="space-item">卡片 3</div>
+                </div>
+            </div>
+            <div class="tip">
+                <strong>💡 使用场景：</strong> 统一元素间距、按钮组、卡片列表<br>
+                <strong>📏 尺寸规范：</strong> 支持 8/12/16/24/32px 间距
+            </div>
+        </div>
+
+        <!-- 7. Divider 分割线 -->
+        <div class="section">
+            <h2 class="section-title">➖ 7. Divider 分割线</h2>
+            <div class="component-label">水平分割线</div>
+            <div>内容区域上方</div>
+            <div class="divider"></div>
+            <div>内容区域下方</div>
+
+            <div class="component-label" style="margin-top: 32px;">带文字分割线</div>
+            <div>上方内容</div>
+            <div class="divider-with-text">
+                <span class="divider-text">更多</span>
+            </div>
+            <div>下方内容</div>
+
+            <div class="component-label" style="margin-top: 32px;">垂直分割线</div>
+            <div style="display: flex; align-items: center;">
+                <span>操作 1</span>
+                <span class="divider-vertical"></span>
+                <span>操作 2</span>
+                <span class="divider-vertical"></span>
+                <span>操作 3</span>
+            </div>
+            <div class="tip">
+                <strong>💡 使用场景：</strong> 内容分隔、操作项分隔<br>
+                <strong>📏 尺寸规范：</strong> 线宽 1px，颜色 #E5E6EB
+            </div>
+        </div>
+
+        <!-- 8. Container 容器 -->
+        <div class="section">
+            <h2 class="section-title">📦 8. Container 容器</h2>
+            <div class="container-demo">
+                <div class="container-fixed">
+                    <div class="container-box">
+                        <h3 style="margin-bottom: 8px;">固定宽度容器</h3>
+                        <p>max-width: 1200px，居中显示</p>
+                    </div>
+                </div>
+            </div>
+            <div class="tip">
+                <strong>💡 使用场景：</strong> 页面内容居中、限制最大宽度<br>
+                <strong>📏 尺寸规范：</strong> 固定宽度 1200px（可配置），左右自动边距
+            </div>
+        </div>
+
+        <!-- 总结 -->
+        <div class="section" style="background: var(--primary-gradient); color: white;">
+            <h2 class="section-title" style="border-bottom-color: rgba(255,255,255,0.3);">📐 布局组件使用指南</h2>
+            <div style="line-height: 2;">
+                <strong>1. 标准后台布局：</strong> Layout → Header + Sidebar + Content + Footer<br>
+                <strong>2. 简单页面布局：</strong> Header + Content<br>
+                <strong>3. 响应式布局：</strong> 使用 Grid 栅格系统 + Space 间距<br>
+                <strong>4. 内容分隔：</strong> 使用 Divider 分割线<br>
+                <strong>5. 内容居中：</strong> 使用 Container 容器
+            </div>
+        </div>
+    </div>
+</body>
+</html>
