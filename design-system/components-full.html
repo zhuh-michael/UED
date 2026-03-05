@@ -3450,13 +3450,24 @@
             <h2 class="section-title">💀 7. Skeleton 骨架屏</h2>
             <div class="component-grid">
                 <div class="component-item">
-                    <div class="component-label">列表骨架</div>
+                    <div class="component-label">加载中状态</div>
                     <div style="display: flex; gap: 16px;">
                         <div class="skeleton skeleton-avatar"></div>
                         <div style="flex: 1;">
                             <div class="skeleton skeleton-title"></div>
                             <div class="skeleton skeleton-text"></div>
                             <div class="skeleton skeleton-text" style="width: 80%;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="component-item">
+                    <div class="component-label">加载完成状态</div>
+                    <div style="display: flex; gap: 16px; align-items: center;">
+                        <div class="avatar" style="width: 48px; height: 48px;">青</div>
+                        <div style="flex: 1;">
+                            <div style="height: 20px; background: #1D2129; border-radius: 4px; width: 60%; margin-bottom: 8px;"></div>
+                            <div style="height: 14px; background: #86909C; border-radius: 4px; width: 80%; margin-bottom: 6px;"></div>
+                            <div style="height: 14px; background: #86909C; border-radius: 4px; width: 60%;"></div>
                         </div>
                     </div>
                 </div>
@@ -3469,7 +3480,9 @@
                 </div>
             </div>
             <div class="tip">
-                <strong>💡 设计说明：</strong> 灰色渐变背景，流动加载动画（1.5s 循环），圆角 8px
+                <strong>💡 使用场景：</strong> 页面初始加载、数据刷新、列表加载<br>
+                <strong>📏 尺寸规范：</strong> 头像 48px，标题高度 20px，文本高度 14px，间距 12px<br>
+                <strong>🎬 动效说明：</strong> 灰色渐变背景，流动加载动画（1.5s 循环），圆角 8px
             </div>
         </div>
 
@@ -4645,20 +4658,46 @@
             <h2 class="section-title">📅 1. DatePicker 日期选择</h2>
             <div class="component-grid">
                 <div class="component-item">
-                    <div class="component-label">基础日期选择</div>
+                    <div class="component-label">默认状态</div>
                     <div class="date-picker-wrapper">
                         <input type="text" class="date-picker-input" value="2026-03-04" readonly>
                     </div>
                 </div>
                 <div class="component-item">
-                    <div class="component-label">日期范围选择</div>
-                    <div class="date-picker-wrapper">
-                        <input type="text" class="date-picker-input" value="2026-03-01 ~ 2026-03-31" readonly>
+                    <div class="component-label">点击展开状态</div>
+                    <div class="date-picker-wrapper" style="position: relative;">
+                        <input type="text" class="date-picker-input active" value="2026-03-04" readonly>
+                        <div class="date-picker-panel" style="position: absolute; top: 100%; left: 0; right: 0; margin-top: 4px; background: white; border-radius: 8px; box-shadow: 0 4px 16px rgba(51,112,255,0.2); padding: 16px;">
+                            <div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; text-align: center;">
+                                <div style="color: #86909C; font-size: 12px; padding: 8px 0;">日</div>
+                                <div style="color: #86909C; font-size: 12px; padding: 8px 0;">一</div>
+                                <div style="color: #86909C; font-size: 12px; padding: 8px 0;">二</div>
+                                <div style="color: #86909C; font-size: 12px; padding: 8px 0;">三</div>
+                                <div style="color: #86909C; font-size: 12px; padding: 8px 0;">四</div>
+                                <div style="color: #86909C; font-size: 12px; padding: 8px 0;">五</div>
+                                <div style="color: #86909C; font-size: 12px; padding: 8px 0;">六</div>
+                                <div style="color: #C9CDD4; font-size: 14px; padding: 8px;">25</div>
+                                <div style="color: #C9CDD4; font-size: 14px; padding: 8px;">26</div>
+                                <div style="color: #1D2129; font-size: 14px; padding: 8px; border-radius: 4px;">27</div>
+                                <div style="color: #1D2129; font-size: 14px; padding: 8px; border-radius: 4px;">28</div>
+                                <div style="color: #1D2129; font-size: 14px; padding: 8px; border-radius: 4px;">29</div>
+                                <div style="color: #1D2129; font-size: 14px; padding: 8px; border-radius: 4px;">30</div>
+                                <div style="color: #1D2129; font-size: 14px; padding: 8px; border-radius: 4px;">1</div>
+                                <div style="color: #1D2129; font-size: 14px; padding: 8px; border-radius: 4px;">2</div>
+                                <div style="color: #1D2129; font-size: 14px; padding: 8px; border-radius: 4px;">3</div>
+                                <div style="background: linear-gradient(135deg, #3370FF, #722ED1); color: white; font-size: 14px; padding: 8px; border-radius: 4px; font-weight: 600;">4</div>
+                                <div style="color: #1D2129; font-size: 14px; padding: 8px; border-radius: 4px;">5</div>
+                                <div style="color: #1D2129; font-size: 14px; padding: 8px; border-radius: 4px;">6</div>
+                                <div style="color: #1D2129; font-size: 14px; padding: 8px; border-radius: 4px;">7</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="tip">
-                <strong>💡 设计说明：</strong> 圆角 8px，聚焦#3370FF 光晕，日期面板带渐变选中效果，今日标记蓝色边框
+                <strong>💡 使用场景：</strong> 日期选择、日期范围筛选、生日选择<br>
+                <strong>📏 尺寸规范：</strong> 输入框高度 36px，圆角 8px，面板内边距 16px<br>
+                <strong>🎨 交互状态：</strong> 默认/聚焦/悬停/选中/禁用，今日标记蓝色边框，选中渐变背景
             </div>
         </div>
 
@@ -5072,21 +5111,40 @@
             <h2 class="section-title">🎠 17. Carousel 走马灯</h2>
             <div class="component-grid">
                 <div class="component-item full-width">
-                    <div class="component-label">轮播图</div>
+                    <div class="component-label">轮播图（静态展示）</div>
                     <div class="carousel">
                         <div class="carousel-track">
-                            <div class="carousel-slide">第一屏</div>
+                            <div class="carousel-slide active">第一屏 - 欢迎使用青鸾组织架构系统</div>
+                            <div class="carousel-slide">第二屏 - 高效的团队管理工具</div>
+                            <div class="carousel-slide">第三屏 - 数据驱动决策</div>
                         </div>
                         <div class="carousel-dots">
                             <div class="carousel-dot active"></div>
                             <div class="carousel-dot"></div>
                             <div class="carousel-dot"></div>
                         </div>
+                        <div class="carousel-arrow carousel-arrow-left">‹</div>
+                        <div class="carousel-arrow carousel-arrow-right">›</div>
+                    </div>
+                </div>
+                <div class="component-item full-width">
+                    <div class="component-label">切换动效说明</div>
+                    <div style="padding: 24px; background: rgba(51,112,255,0.05); border-radius: 8px;">
+                        <div style="margin-bottom: 12px; color: #1D2129; font-weight: 600;">🎬 切换动效：</div>
+                        <div style="color: #595959; line-height: 1.8;">
+                            • <strong>滑动切换：</strong> slide 0.5s ease，内容横向滑动<br>
+                            • <strong>淡入淡出：</strong> opacity 0.3s ease，透明度渐变<br>
+                            • <strong>自动播放：</strong> 5 秒间隔，悬停暂停<br>
+                            • <strong>指示器：</strong> 圆点 8px，激活拉长至 24px，过渡 0.3s ease<br>
+                            • <strong>箭头：</strong> 悬停显示，背景 rgba(0,0,0,0.3)，过渡 0.3s
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="tip">
-                <strong>💡 设计说明：</strong> 蓝紫渐变背景，圆角 12px，指示器圆点，激活状态拉长
+                <strong>💡 使用场景：</strong> 首页轮播图、活动展示、产品特性介绍<br>
+                <strong>📏 尺寸规范：</strong> 高度 300px（可配置），圆角 12px，指示器间距 8px<br>
+                <strong>🎨 交互状态：</strong> 自动播放/手动切换/悬停暂停/箭头导航/指示器导航
             </div>
         </div>
 
