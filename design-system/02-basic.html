@@ -1,0 +1,276 @@
+<!-- UED 基础组件库（4 个组件） -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UED 基础组件库</title>
+    <style>
+        :root {
+            --primary: #3370FF;
+            --primary-gradient: linear-gradient(135deg, #3370FF 0%, #722ED1 100%);
+            --border: #E5E6EB;
+            --text-primary: rgba(0, 0, 0, 0.85);
+            --text-secondary: rgba(0, 0, 0, 0.45);
+            --bg-disabled: #f5f5f5;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --shadow-md: 0 4px 16px rgba(51, 112, 255, 0.2);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            margin-bottom: 32px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        .section-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--border);
+        }
+        .component-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+        .component-item {
+            background: #fafafa;
+            border-radius: var(--radius-md);
+            padding: 24px;
+            border: 1px solid var(--border);
+        }
+        .component-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+        .usage-guide {
+            background: rgba(51, 112, 255, 0.05);
+            border-left: 4px solid var(--primary);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            margin-top: 24px;
+        }
+        .usage-guide h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+        .usage-guide dt {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 14px;
+            margin-top: 12px;
+            margin-bottom: 6px;
+        }
+        .usage-guide dd {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 0 0 12px 0;
+        }
+        .usage-guide ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        .usage-guide li {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.8;
+            padding-left: 20px;
+            position: relative;
+        }
+        .usage-guide li::before {
+            content: '•';
+            color: var(--primary);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 16px;
+            border-radius: var(--radius-md);
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            overflow-x: auto;
+            margin: 16px 0;
+        }
+        .code-block .keyword { color: #569cd6; }
+        .code-block .string { color: #ce9178; }
+        .code-block .comment { color: #6a9955; }
+        .btn {
+            padding: 12px 24px;
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            outline: none;
+        }
+        .btn-primary {
+            background: var(--primary-gradient);
+            color: white;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(51, 112, 255, 0.4);
+        }
+        .btn:disabled {
+            background: var(--bg-disabled);
+            color: var(--text-disabled);
+            cursor: not-allowed;
+            transform: none;
+        }
+        .input {
+            width: 100%;
+            height: 40px;
+            padding: 0 12px;
+            font-size: 14px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            transition: all 0.3s ease;
+            outline: none;
+        }
+        .input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(51, 112, 255, 0.12);
+        }
+        .card {
+            background: white;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+        }
+        .card-header {
+            height: 48px;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            font-weight: 600;
+        }
+        .card-body {
+            padding: 24px;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 style="text-align: center; color: white; margin-bottom: 40px;">🔘 UED 基础组件库（4 个）</h1>
+
+        <!-- Button -->
+        <div class="section">
+            <h2 class="section-title">🔘 1. Button 按钮</h2>
+            <div class="component-grid">
+                <div class="component-item">
+                    <div class="component-label">主按钮</div>
+                    <button class="btn btn-primary">提交</button>
+                </div>
+                <div class="component-item">
+                    <div class="component-label">禁用状态</div>
+                    <button class="btn btn-primary" disabled>不可用</button>
+                </div>
+            </div>
+            <div class="usage-guide">
+                <h4>📖 使用说明</h4>
+                <dl>
+                    <dt>使用场景</dt>
+                    <dd>操作触发、表单提交、功能入口</dd>
+                    <dt>尺寸规范</dt>
+                    <dd><ul><li>高度：36px（默认）/ 48px（大）/ 28px（小）</li><li>内边距：0 24px</li><li>圆角：8px</li></ul></dd>
+                    <dt>代码示例</dt>
+                    <dd><div class="code-block">&lt;Button type="primary"&gt;提交&lt;/Button&gt;<br>&lt;Button disabled&gt;禁用&lt;/Button&gt;</div></dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- Input -->
+        <div class="section">
+            <h2 class="section-title">📝 2. Input 输入框</h2>
+            <div class="component-grid">
+                <div class="component-item">
+                    <div class="component-label">默认状态</div>
+                    <input type="text" class="input" placeholder="请输入内容">
+                </div>
+                <div class="component-item">
+                    <div class="component-label">聚焦状态</div>
+                    <input type="text" class="input" placeholder="聚焦时光晕 3px" autofocus>
+                </div>
+            </div>
+            <div class="usage-guide">
+                <h4>📖 使用说明</h4>
+                <dl>
+                    <dt>使用场景</dt>
+                    <dd>文本输入、表单填写、搜索框</dd>
+                    <dt>尺寸规范</dt>
+                    <dd><ul><li>高度：36px / 40px（大）</li><li>内边距：0 12px</li><li>圆角：8px</li></ul></dd>
+                    <dt>代码示例</dt>
+                    <dd><div class="code-block">&lt;Input placeholder="请输入" /&gt;<br>&lt;Input value={value} onChange={handleChange} /&gt;</div></dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- Card -->
+        <div class="section">
+            <h2 class="section-title">📦 3. Card 卡片</h2>
+            <div class="component-item full-width">
+                <div class="card">
+                    <div class="card-header">📊 卡片标题</div>
+                    <div class="card-body">卡片内容区域，支持文字、图片、表格等。</div>
+                </div>
+            </div>
+            <div class="usage-guide">
+                <h4>📖 使用说明</h4>
+                <dl>
+                    <dt>使用场景</dt>
+                    <dd>内容容器、数据展示、列表项</dd>
+                    <dt>尺寸规范</dt>
+                    <dd><ul><li>Header 高度：48px（可选）</li><li>Body 内边距：24px</li><li>圆角：12px</li></ul></dd>
+                    <dt>代码示例</dt>
+                    <dd><div class="code-block">&lt;Card title="标题"&gt;<br>  内容<br>&lt;/Card&gt;</div></dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- Textarea -->
+        <div class="section">
+            <h2 class="section-title">📄 4. Textarea 多行文本</h2>
+            <div class="component-item full-width">
+                <textarea class="input" rows="4" placeholder="请输入多行文本" style="resize: vertical;"></textarea>
+            </div>
+            <div class="usage-guide">
+                <h4>📖 使用说明</h4>
+                <dl>
+                    <dt>使用场景</dt>
+                    <dd>多行文本输入、评论、备注</dd>
+                    <dt>尺寸规范</dt>
+                    <dd><ul><li>高度：自适应（最小 80px）</li><li>行数：4 行（默认）</li><li>圆角：8px</li></ul></dd>
+                    <dt>代码示例</dt>
+                    <dd><div class="code-block">&lt;Textarea rows={4} placeholder="备注" /&gt;</div></dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
