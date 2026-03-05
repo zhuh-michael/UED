@@ -3243,6 +3243,107 @@
         .tip strong {
             color: var(--primary);
         }
+
+        /* 使用说明卡片 */
+        .usage-guide {
+            background: rgba(51, 112, 255, 0.05);
+            border-left: 4px solid var(--primary);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            margin-top: 24px;
+        }
+
+        .usage-guide h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+
+        .usage-guide dl {
+            display: block;
+            margin-bottom: 16px;
+        }
+
+        .usage-guide dt {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 14px;
+            margin-top: 12px;
+            margin-bottom: 6px;
+        }
+
+        .usage-guide dd {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 0 0 12px 0;
+        }
+
+        .usage-guide ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .usage-guide li {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.8;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .usage-guide li::before {
+            content: '•';
+            color: var(--primary);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        /* 状态表格 */
+        .status-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 14px;
+        }
+
+        .status-table th,
+        .status-table td {
+            padding: 12px 16px;
+            text-align: left;
+            border: 1px solid var(--border);
+        }
+
+        .status-table th {
+            background: var(--bg-disabled);
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .status-table td {
+            color: var(--text-secondary);
+        }
+
+        /* 代码块 */
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 16px;
+            border-radius: var(--radius-md);
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            overflow-x: auto;
+            margin: 16px 0;
+        }
+
+        .code-block .keyword { color: #569cd6; }
+        .code-block .string { color: #ce9178; }
+        .code-block .comment { color: #6a9955; }
+        .code-block .function { color: #dcdcaa; }
+        .code-block .number { color: #b5cea8; }
     </style>
 </head>
 <body>
@@ -3479,10 +3580,54 @@
                     <div class="skeleton skeleton-text"></div>
                 </div>
             </div>
-            <div class="tip">
-                <strong>💡 使用场景：</strong> 页面初始加载、数据刷新、列表加载<br>
-                <strong>📏 尺寸规范：</strong> 头像 48px，标题高度 20px，文本高度 14px，间距 12px<br>
-                <strong>🎬 动效说明：</strong> 灰色渐变背景，流动加载动画（1.5s 循环），圆角 8px
+            
+            <div class="usage-guide">
+                <h4>📖 使用说明</h4>
+                <dl>
+                    <dt>使用场景</dt>
+                    <dd>页面初始加载、数据刷新、列表加载</dd>
+                    
+                    <dt>尺寸规范</dt>
+                    <dd>
+                        <ul>
+                            <li>头像：48px × 48px（圆形）</li>
+                            <li>标题：高度 20px，宽度 60%</li>
+                            <li>文本：高度 14px，间距 8px</li>
+                            <li>图片：高度 200px</li>
+                            <li>圆角：8px</li>
+                        </ul>
+                    </dd>
+                    
+                    <dt>状态说明</dt>
+                    <dd>
+                        <table class="status-table">
+                            <tr><th>状态</th><th>说明</th></tr>
+                            <tr><td>加载中</td><td>灰色渐变背景，流动动画 1.5s 循环</td></tr>
+                            <tr><td>加载完成</td><td>淡入真实内容，过渡 0.3s</td></tr>
+                        </table>
+                    </dd>
+                    
+                    <dt>动效说明</dt>
+                    <dd>
+                        <ul>
+                            <li>流动动画：background-position 200% → -200%，1.5s 无限循环</li>
+                            <li>加载完成：opacity 0 → 1，0.3s ease</li>
+                        </ul>
+                    </dd>
+                    
+                    <dt>代码示例</dt>
+                    <dd>
+                        <div class="code-block"><span class="keyword">import</span> { Skeleton } <span class="keyword">from</span> <span class="string">'@/components/ui'</span>
+
+<span class="comment">// 列表骨架</span>
+&lt;Skeleton avatar /&gt;
+&lt;Skeleton.Text lines={3} /&gt;
+
+<span class="comment">// 卡片骨架</span>
+&lt;Skeleton.Image height={200} /&gt;
+&lt;Skeleton.Text lines={2} /&gt;</div>
+                    </dd>
+                </dl>
             </div>
         </div>
 
