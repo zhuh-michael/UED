@@ -25,6 +25,11 @@
         .modal { background: white; padding: 32px; border-radius: var(--radius-lg); min-width: 400px; }
         .progress-track { width: 100%; height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
         .progress-fill { height: 100%; background: var(--primary-gradient); width: 60%; border-radius: 4px; }
+        .progress-circle { width: 80px; height: 80px; position: relative; display: inline-block; }
+        .progress-circle svg { transform: rotate(-90deg); display: block; width: 100%; height: 100%; }
+        .progress-circle-bg { fill: none; stroke: var(--border); stroke-width: 8; }
+        .progress-circle-bar { fill: none; stroke: url(#gradient); stroke-width: 8; stroke-linecap: round; stroke-dasharray: 201.06; stroke-dashoffset: 50.27; transition: stroke-dashoffset 0.3s ease; }
+        .progress-circle-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 14px; font-weight: 600; color: var(--primary); line-height: 1; }
         .skeleton { background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size: 200% 100%; animation: skeleton 1.5s infinite; border-radius: var(--radius-md); }
         @keyframes skeleton { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
         .tabs { display: flex; gap: 4px; border-bottom: 2px solid var(--border); margin-bottom: 24px; }
@@ -67,14 +72,31 @@
         <div class="section">
             <h2 class="section-title">📊 2. Progress 进度条</h2>
             <div class="component-item">
-                <div class="progress-track"><div class="progress-fill"></div></div>
+                <div style="margin-bottom: 24px;">
+                    <div class="progress-track"><div class="progress-fill"></div></div>
+                </div>
+                <div>
+                    <div class="progress-circle">
+                        <svg width="80" height="80" viewBox="0 0 80 80">
+                            <defs>
+                                <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#3370FF"/>
+                                    <stop offset="100%" style="stop-color:#722ED1"/>
+                                </linearGradient>
+                            </defs>
+                            <circle class="progress-circle-bg" cx="40" cy="40" r="32"/>
+                            <circle class="progress-circle-bar" cx="40" cy="40" r="32"/>
+                        </svg>
+                        <div class="progress-circle-text">75%</div>
+                    </div>
+                </div>
             </div>
             <div class="usage-guide">
                 <h4>📖 使用说明</h4>
                 <dl>
                     <dt>使用场景</dt><dd>加载进度、完成度</dd>
-                    <dt>尺寸规范</dt><dd><ul><li>高度：8px</li><li>圆角：4px</li></ul></dd>
-                    <dt>代码示例</dt><dd><div class="code-block">&lt;Progress percent={60} /&gt;</div></dd>
+                    <dt>尺寸规范</dt><dd><ul><li>线性高度：8px</li><li>线性圆角：4px</li><li>环形半径：32px（确保线和圆心对齐）</li><li>环形描边：8px</li></ul></dd>
+                    <dt>代码示例</dt><dd><div class="code-block">&lt;Progress percent={60} /&gt;<br>&lt;Progress type="circle" percent={75} /&gt;</div></dd>
                 </dl>
             </div>
         </div>
