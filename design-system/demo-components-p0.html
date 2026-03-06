@@ -391,10 +391,12 @@
             width: 80px;
             height: 80px;
             position: relative;
+            display: inline-block;
         }
 
         .progress-circle svg {
             transform: rotate(-90deg);
+            display: block;
         }
 
         .progress-circle-bg {
@@ -408,8 +410,8 @@
             stroke: url(#gradient);
             stroke-width: 8;
             stroke-linecap: round;
-            stroke-dasharray: 226;
-            stroke-dashoffset: 56;
+            stroke-dasharray: 226.19;
+            stroke-dashoffset: 56.55;
             transition: stroke-dashoffset 0.3s ease;
         }
 
@@ -421,6 +423,7 @@
             font-size: 14px;
             font-weight: 600;
             color: var(--primary);
+            line-height: 1;
         }
 
         /* 7. Skeleton 骨架屏 */
